@@ -12,10 +12,10 @@ This tracker documents every feature, design decision, current status, and exact
 | **FEAT-02** | **Landing Page & 4-Tier Pricing** (practicenow.us-style virtual studio) | 🟢 COMPLETED | [FEAT-02 Doc](features/FEAT-02-landing-page.md) |
 | **FEAT-03** | **Auth & Dev Test-Mode Login** (Email OTP + Brevo + One-Click Test Users) | 🟢 COMPLETED | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
 | **FEAT-04** | **Admin Operations Portal** (aerial yoga client panel structure & tabs) | 🟢 COMPLETED | [FEAT-04 Doc](features/FEAT-04-admin-portal.md) |
-| **FEAT-05** | **Class Batches & Scheduling Engine** (Interactive batch creation & conflict check) | 🟡 READY_FOR_NEXT | Pending |
-| **FEAT-06** | **Attendance Tracking & DB Sync** (Real-time student attendance check-ins) | 🟡 READY_FOR_NEXT | Pending |
+| **FEAT-05** | **Class Batches & Scheduling Engine** (Interactive modal, conflict check, timetable) | 🟢 COMPLETED | [FEAT-05 Doc](features/FEAT-05-scheduling-batches.md) |
+| **FEAT-06** | **Daily Attendance Tracker & Roster Sync** (Real-time check-ins & counter sync) | 🟢 COMPLETED | [FEAT-06 Doc](features/FEAT-06-attendance-sync.md) |
 | **FEAT-07** | **Brevo Email Service Integration** (Transactional OTP & Notifications) | 🟢 COMPLETED | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
-| **FEAT-08** | **Public Teacher SSR Website in Nature Theme** | 🟢 PREVIEW_READY | [FEAT-04 Doc](features/FEAT-04-admin-portal.md) |
+| **FEAT-08** | **Public Teacher SSR Website in Nature Theme** (Schedule & bio SSR) | 🟢 PREVIEW_READY | [FEAT-04 Doc](features/FEAT-04-admin-portal.md) |
 | **FEAT-09** | **Student Portal in Nature Theme** (Countdown & Zoom Join) | 🟢 PREVIEW_READY | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
 
 ---
