@@ -1,16 +1,13 @@
-# ProgressRooms Website System
+# Website system
 
-## 1. Routing Architecture
-- Public URL: `progressrooms.com/{organization_slug}`
-- Dedicated Session Page: `progressrooms.com/{organization_slug}/sessions/{session_slug}`
-- Custom Domains: Reserved domain records in `organization_domains` mapped to the organization.
+Status: design; public catalog and template implementation follow foundation.
 
-## 2. Server-Side Rendering (SSR)
-- Public routes are rendered on the server via Next.js Server Components.
-- Delivers instantaneous LCP, full SEO crawlability (OpenGraph, Twitter cards, schema.org Course markup), and dynamic metadata.
+Every active, entitled organization has an SSR route `/{organization_slug}`. Sessions use `/{organization_slug}/sessions/{session_slug}`. Next.js Server Components fetch a deliberately public FastAPI projection. It excludes student records, internal notes, unpublished content, payment records, and meeting URLs. Check organization status, subscription time boundaries, session ACTIVE status and PUBLIC visibility at the source; hiding cards in React is insufficient. All application routes are reserved organization slugs at both API and database boundaries.
 
-## 3. Template System
-1. **Default Template**: Available to Starter and Core plans. Clean, single-page profile with bio, class type filters, session cards, schedule pills, and pricing.
-2. **Template A (Minimalist Elegance)**: Available to Studio plan. Clean typography, high-contrast hero, grid layout.
-3. **Template B (Studio Active / Energy)**: Bold color blocks, hero video/banner, interactive timetable, instructor highlights.
-4. **Template C (Modern Academy)**: Curriculum breakdown, multi-course carousel, student reviews, FAQ accordion.
+Starter and Core receive the fixed default profile: identity, approved introduction/contact fields and dynamic class/session listings. Studio adds three code-rendered templates with fixed section order. Configuration uses a discriminated, versioned schema for approved text, media IDs, contact fields and section visibility. Reject unknown fields, raw HTML and unapproved URL protocols. Store draft and published configuration separately; publish atomically with optimistic revision checking. Template version changes require a migration/adapter and retain a rollback path. Downgrades preserve private advanced drafts but render only the default entitled website.
+
+Catalog cards always query the session domain. Do not duplicate sessions in template JSON. Generate canonical URLs from a configured trusted public origin, page-specific titles/descriptions, Open Graph and Twitter metadata. Organization/session absence returns a real 404. Public cache invalidation accompanies publish, catalog status, subscription and suspension changes; preview and private data always use no-store. Do not statically export these SSR routes.
+
+Media uses organization-owned object storage metadata. Validate file type from content, limit size, sanitize names and strip unnecessary image metadata. Upload intents are short-lived and scoped; completion checks ownership. Public assets may use a CDN; private assets require signed delivery. Custom domain ownership and DNS automation are reserved for a later milestone.
+
+Acceptance: three template fixtures, mobile layout and accessibility checks, server-rendered HTML with dynamic metadata, no hidden sessions or protected fields, tenant-safe media, invalid schema rejection, downgrade behavior, atomic publish and stale revision rejection.

@@ -1,42 +1,36 @@
-# ProgressRooms Subscription Plans & Entitlement Architecture
+# Subscription and entitlement system
 
-## 1. Tiers and Pricing Matrix
+Status: plan catalog, Starter trial and entitlement evaluation are foundation scope. Paid organization checkout, recurring renewal and upgrade/downgrade scheduling follow later.
 
-| Tier | Plan Name | Status | Price (INR/mo) | Trial Period | Target Customer |
-|------|-----------|--------|----------------|--------------|-----------------|
-| Free | **Starter** | Active | ₹0 | 30 Days | New independent teachers testing the platform |
-| Basic | **Core** | Active | ₹1,499 | None | Solo teachers running scheduled classes |
-| Advanced | **Studio** | Active | ₹3,999 | None | Multi-teacher studios, academies & organizations |
-| AI | **Progress AI** | Coming Soon | TBD | None | Advanced AI-assisted studio operations |
+| Plan | Initial status | Product intent |
+| --- | --- | --- |
+| Starter | Active catalog plan; 30-day trial | Evaluate core management and a default public page. No automatic charge at trial end. |
+| Core | Active catalog plan | Paid core teaching operations and default public page. |
+| Studio | Active catalog plan | Multiple instructors, advanced website templates and broader limits. |
+| Progress AI | Coming Soon | Reserved future capabilities; no checkout or enabled AI features. |
 
-## 2. Feature Entitlements Model
+Exact commercial prices and quota values are deployment data requiring product confirmation. Any locally seeded prices are development fixtures, not published commercial commitments. The API returns plan data; UI logic never compares display names to authorize a feature.
 
-Plans are not hardcoded. All limits and capabilities are resolved via the `plan_features` table and `FeatureEntitlementService`.
+## Data and feature evaluation
 
-```text
-Plan
- └── PlanFeature (feature_key, feature_value)
-```
+`plans` holds catalog metadata, currency, billing interval, integer price amount and availability. `plan_features` holds typed boolean/integer/string values by unique plan and key. `organization_subscriptions` records plan, status, effective dates and trial dates. Future provider subscription identifiers belong here, separate from student orders.
 
-### Feature Keys
+Initial keys include `max_teachers`, `max_students`, `max_sessions`, `website_access`, `advanced_website`, `custom_domain`, `zoom_integration` and `ai_features`. Unsupported future capabilities remain false even if a future tier is visible. Validate known feature keys and types centrally. Missing capability keys deny access; missing limits must not silently become unlimited. Represent unlimited quotas explicitly when introduced.
 
-| Feature Key | Type | Starter | Core | Studio | Progress AI |
-|-------------|------|---------|------|--------|-------------|
-| `max_teachers` | Integer | 1 | 1 | 10 | 25 |
-| `max_active_sessions` | Integer | 3 | 10 | Unlimited (-1) | Unlimited (-1) |
-| `max_students` | Integer | 50 | 250 | Unlimited (-1) | Unlimited (-1) |
-| `website_access` | Boolean | true (Default) | true (Default) | true | true |
-| `advanced_website` | Boolean | false | false | true (3 templates) | true |
-| `custom_domain` | Boolean | false | false | true | true |
-| `zoom_integration` | Boolean | true | true | true | true |
-| `analytics_access` | Boolean | Basic | Standard | Advanced | AI Predictive |
-| `ai_features` | Boolean | false | false | false | true (Coming Soon) |
+The entitlement service evaluates organization active state, current subscription status, current server time, plan feature value and measured usage. Active trial is `status=TRIAL` with `now < trial_ends_at`; paid active access respects the effective period. Returned feature values drive UI visibility, while every write repeats server-side enforcement. Read access to essential billing/history may use an explicit recovery policy even after feature access expires.
 
-## 3. Subscription Statuses
+## Trial creation and lifecycle
 
-- `TRIAL`: 30-day initial trial granted to new organizations.
-- `ACTIVE`: Active paid recurring subscription.
-- `PAST_DUE`: Payment renewal failed; 3-day grace period.
-- `EXPIRED`: Trial ended or subscription lapsed without payment.
-- `CANCELLED`: Subscription cancelled by owner; access remains until end of billing cycle.
-- `SUSPENDED`: Suspended by Super Admin.
+Organization creation atomically inserts owner membership and one Starter trial with a 30-day boundary. A user logging in again does not receive another trial for the existing organization. Trial start/end are auditable server timestamps. Creation retry and concurrent requests must not produce duplicate subscriptions for one organization.
+
+Status transitions: TRIAL → ACTIVE or EXPIRED; ACTIVE → PAST_DUE, CANCELLED or SUSPENDED; PAST_DUE → ACTIVE or EXPIRED. Cancellation and scheduled period end are distinct concepts: a cancellation request may preserve access until the paid end. Initial design does not grant a hidden grace period for PAST_DUE; a future grace policy needs explicit effective dates. Platform suspension denies operational access irrespective of billing status.
+
+## Usage limits and plan changes
+
+Count active instructors, active student relationships, active sessions and valid stored bytes according to one documented policy. Owner teaching counts toward instructor usage when instructional capability is enabled. Archive/suspension effects on usage must be consistent in service and UI. Quota checks that create resources lock or reserve against concurrent writes; a read-count-then-insert race is insufficient.
+
+Upgrades take effect only after verified billing or an audited administrator action. Downgrades should apply at the configured period boundary. Over-limit data is retained: deny new resource creation and show remediation rather than deleting existing business history. Advanced website downgrade preserves the draft and renders the entitled default version. Scheduled plan changes cannot mutate historical invoices or purchases.
+
+## Tests and operating rules
+
+Freeze time at trial start, one instant before end, exactly at end and after end. Test organization suspension, missing features, typed values, active versus expired periods, quota concurrency, coming-soon checkout denial, owner/admin billing authorization and prevention of client-supplied feature overrides. Update entitlements/cache version after plan changes. Seed plan fixtures through an idempotent script; production plan updates use an audited operation and a migration if the data model changes.

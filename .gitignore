@@ -28,3 +28,7 @@ out/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Standalone Subrepositories
+progressrooms-api/
+progressrooms-web/

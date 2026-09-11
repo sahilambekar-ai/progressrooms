@@ -1,0 +1,5578 @@
+[
+  {
+    "name": "users",
+    "purpose": "One global identity reused across all organizations; credentials and roles live separately.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "email",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Canonical lower-case email; application validates format."
+      },
+      {
+        "name": "full_name",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Full name"
+      },
+      {
+        "name": "email_verified_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Email verified at"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, SUSPENDED."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      },
+      {
+        "name": "deleted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Soft deletion instant; history and foreign keys remain intact."
+      }
+    ],
+    "fks": [],
+    "uniques": [
+      [
+        "email"
+      ]
+    ],
+    "checks": [
+      "email = lower(btrim(email)) AND position('@' IN email) > 1",
+      "status IN ('ACTIVE', 'SUSPENDED')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "user_auth_methods",
+    "purpose": "Future-compatible authentication method bindings; no plaintext credentials.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'EMAIL_OTP'",
+        "purpose": "Allowed values: EMAIL_OTP, PASSWORD, GOOGLE, APPLE, PHONE_OTP."
+      },
+      {
+        "name": "provider_subject",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider subject"
+      },
+      {
+        "name": "password_hash",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Password hash"
+      },
+      {
+        "name": "verified_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Verified at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "provider",
+        "provider_subject"
+      ],
+      [
+        "user_id",
+        "provider"
+      ]
+    ],
+    "checks": [
+      "(provider = 'PASSWORD' AND password_hash IS NOT NULL) OR (provider <> 'PASSWORD' AND password_hash IS NULL)",
+      "provider IN ('EMAIL_OTP', 'PASSWORD', 'GOOGLE', 'APPLE', 'PHONE_OTP')"
+    ],
+    "indexes": [
+      [
+        "user_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "user_sessions",
+    "purpose": "Revocable opaque login sessions. Store only a keyed digest of the bearer token.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "token_hash",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Token hash"
+      },
+      {
+        "name": "expires_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Expires at"
+      },
+      {
+        "name": "revoked_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Revoked at"
+      },
+      {
+        "name": "ip_address",
+        "type": "INET",
+        "nullable": true,
+        "default": null,
+        "purpose": "Ip address"
+      },
+      {
+        "name": "user_agent",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "User agent"
+      },
+      {
+        "name": "last_seen_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last seen at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "token_hash"
+      ]
+    ],
+    "checks": [
+      "expires_at > created_at"
+    ],
+    "indexes": [
+      [
+        "user_id, expires_at",
+        "revoked_at IS NULL"
+      ],
+      [
+        "expires_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "otp_challenges",
+    "purpose": "Short-lived, single-use OTP challenges. Keyed hashes prevent offline guessing of small code spaces.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "email",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Email"
+      },
+      {
+        "name": "code_hash",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Code hash"
+      },
+      {
+        "name": "purpose",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'LOGIN'",
+        "purpose": "Allowed values: LOGIN."
+      },
+      {
+        "name": "expires_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Expires at"
+      },
+      {
+        "name": "attempts",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Attempts"
+      },
+      {
+        "name": "max_attempts",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "5",
+        "purpose": "Max attempts"
+      },
+      {
+        "name": "consumed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Consumed at"
+      },
+      {
+        "name": "request_ip",
+        "type": "INET",
+        "nullable": true,
+        "default": null,
+        "purpose": "Request ip"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [],
+    "uniques": [],
+    "checks": [
+      "email = lower(btrim(email))",
+      "attempts >= 0 AND max_attempts BETWEEN 1 AND 10 AND attempts <= max_attempts",
+      "expires_at > created_at",
+      "purpose IN ('LOGIN')"
+    ],
+    "indexes": [
+      [
+        "email, created_at DESC",
+        null
+      ],
+      [
+        "request_ip, created_at DESC",
+        null
+      ],
+      [
+        "expires_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "platform_admins",
+    "purpose": "Explicit global administrator grants; granting organization ownership never grants platform access.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "role",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'SUPER_ADMIN'",
+        "purpose": "Allowed values: SUPER_ADMIN."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, SUSPENDED."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "user_id"
+      ]
+    ],
+    "checks": [
+      "role IN ('SUPER_ADMIN')",
+      "status IN ('ACTIVE', 'SUSPENDED')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "organizations",
+    "purpose": "Shared business root for both individual teachers and multi-instructor studios.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "slug",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Slug"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "timezone",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'Asia/Kolkata'",
+        "purpose": "IANA timezone name; validated against installed zoneinfo at the API boundary."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, SUSPENDED."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      },
+      {
+        "name": "deleted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Soft deletion instant; history and foreign keys remain intact."
+      }
+    ],
+    "fks": [],
+    "uniques": [
+      [
+        "slug"
+      ]
+    ],
+    "checks": [
+      "length(btrim(name)) BETWEEN 1 AND 160",
+      "slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$' AND length(slug) BETWEEN 3 AND 80",
+      "slug NOT IN ('admin', 'api', 'app', 'auth', 'login', 'logout', 'signup', 'dashboard', 'pricing', 'sessions', 'about', 'contact', 'settings', 'health', 'docs', 'openapi', 'static', 'assets', 'robots', 'sitemap', 'student', 'students', 'teacher', 'teachers', 'organizations', 'plans', 'support', 'terms', 'privacy', 'favicon', 'www', 'account', 'calendar', 'enrollments', 'payments', 'website', 'integrations')",
+      "status IN ('ACTIVE', 'SUSPENDED')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "organization_members",
+    "purpose": "Staff membership only. A person may hold different roles in different tenants.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "role",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'INSTRUCTOR'",
+        "purpose": "Allowed values: OWNER, ADMIN, INSTRUCTOR."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, INVITED, SUSPENDED, REMOVED."
+      },
+      {
+        "name": "joined_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Joined at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "user_id"
+      ]
+    ],
+    "checks": [
+      "role IN ('OWNER', 'ADMIN', 'INSTRUCTOR')",
+      "status IN ('ACTIVE', 'INVITED', 'SUSPENDED', 'REMOVED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "user_id, status",
+        null
+      ],
+      [
+        "organization_id, role, status",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_invitations",
+    "purpose": "Expiring invitations grant a specific staff role only after verified-email acceptance.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "email",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Email"
+      },
+      {
+        "name": "role",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'INSTRUCTOR'",
+        "purpose": "Allowed values: ADMIN, INSTRUCTOR."
+      },
+      {
+        "name": "token_hash",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Token hash"
+      },
+      {
+        "name": "invited_by",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Invited by"
+      },
+      {
+        "name": "accepted_by",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Accepted by"
+      },
+      {
+        "name": "expires_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Expires at"
+      },
+      {
+        "name": "accepted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Accepted at"
+      },
+      {
+        "name": "revoked_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Revoked at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "invited_by"
+        ],
+        "table": "organization_members",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "accepted_by"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "token_hash"
+      ]
+    ],
+    "checks": [
+      "email = lower(btrim(email))",
+      "expires_at > created_at",
+      "(accepted_at IS NULL) = (accepted_by IS NULL)",
+      "role IN ('ADMIN', 'INSTRUCTOR')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, email",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_students",
+    "purpose": "Private student relationship and notes for a tenant, backed by a global user.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, INACTIVE, BLOCKED."
+      },
+      {
+        "name": "notes",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Private staff notes, never serialized to public/student APIs."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "user_id"
+      ]
+    ],
+    "checks": [
+      "status IN ('ACTIVE', 'INACTIVE', 'BLOCKED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "user_id, status",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_settings",
+    "purpose": "Typed operational preferences; flexible contact/social content remains validated JSON.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "default_currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": "'INR'",
+        "purpose": "Default currency"
+      },
+      {
+        "name": "contact_email",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Contact email"
+      },
+      {
+        "name": "contact_phone",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Contact phone"
+      },
+      {
+        "name": "location",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Location"
+      },
+      {
+        "name": "social_links",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Social links"
+      },
+      {
+        "name": "class_reminder_minutes",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "60",
+        "purpose": "Class reminder minutes"
+      },
+      {
+        "name": "meeting_join_window_minutes",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "15",
+        "purpose": "Meeting join window minutes"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id"
+      ]
+    ],
+    "checks": [
+      "default_currency ~ '^[A-Z]{3}$'",
+      "jsonb_typeof(social_links) = 'object'",
+      "class_reminder_minutes BETWEEN 0 AND 10080",
+      "meeting_join_window_minutes BETWEEN 0 AND 120"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "plans",
+    "purpose": "Database-driven platform subscription catalogue; amounts are integer minor currency units.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "slug",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Slug"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "price_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Price amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": "'INR'",
+        "purpose": "Currency"
+      },
+      {
+        "name": "billing_interval",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'MONTH'",
+        "purpose": "Allowed values: TRIAL, MONTH, YEAR."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, COMING_SOON, ARCHIVED."
+      },
+      {
+        "name": "is_public",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "true",
+        "purpose": "Is public"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [],
+    "uniques": [
+      [
+        "slug"
+      ]
+    ],
+    "checks": [
+      "price_amount >= 0",
+      "currency ~ '^[A-Z]{3}$'",
+      "slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'",
+      "billing_interval IN ('TRIAL', 'MONTH', 'YEAR')",
+      "status IN ('ACTIVE', 'COMING_SOON', 'ARCHIVED')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "plan_features",
+    "purpose": "Typed entitlements read by one centralized authorization/usage service.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "plan_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Plan id"
+      },
+      {
+        "name": "feature_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Feature key"
+      },
+      {
+        "name": "value_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'BOOLEAN'",
+        "purpose": "Allowed values: BOOLEAN, INTEGER, TEXT."
+      },
+      {
+        "name": "boolean_value",
+        "type": "BOOLEAN",
+        "nullable": true,
+        "default": null,
+        "purpose": "Boolean value"
+      },
+      {
+        "name": "integer_value",
+        "type": "BIGINT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Integer value"
+      },
+      {
+        "name": "text_value",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Text value"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "plan_id"
+        ],
+        "table": "plans",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "plan_id",
+        "feature_key"
+      ]
+    ],
+    "checks": [
+      "feature_key ~ '^[a-z][a-z0-9_]*$'",
+      "(value_type = 'BOOLEAN' AND boolean_value IS NOT NULL AND integer_value IS NULL AND text_value IS NULL) OR (value_type = 'INTEGER' AND boolean_value IS NULL AND integer_value IS NOT NULL AND text_value IS NULL) OR (value_type = 'TEXT' AND boolean_value IS NULL AND integer_value IS NULL AND text_value IS NOT NULL)",
+      "integer_value IS NULL OR integer_value >= -1",
+      "value_type IN ('BOOLEAN', 'INTEGER', 'TEXT')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "organization_subscriptions",
+    "purpose": "Current platform subscription per tenant; historical transitions remain in organization_subscription_history and audit logs. Student purchases never use this table.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "plan_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Plan id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'TRIAL'",
+        "purpose": "Allowed values: TRIAL, ACTIVE, PAST_DUE, EXPIRED, CANCELLED, SUSPENDED."
+      },
+      {
+        "name": "starts_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Starts at"
+      },
+      {
+        "name": "ends_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Ends at"
+      },
+      {
+        "name": "trial_starts_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": "now()",
+        "purpose": "Trial starts at"
+      },
+      {
+        "name": "trial_ends_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": "now() + interval '30 days'",
+        "purpose": "Trial ends at"
+      },
+      {
+        "name": "cancelled_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Cancelled at"
+      },
+      {
+        "name": "payment_provider",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Payment provider"
+      },
+      {
+        "name": "provider_subscription_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Provider subscription id"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "plan_id"
+        ],
+        "table": "plans",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id"
+      ],
+      [
+        "payment_provider",
+        "provider_subscription_id"
+      ]
+    ],
+    "checks": [
+      "ends_at IS NULL OR ends_at > starts_at",
+      "(trial_starts_at IS NULL AND trial_ends_at IS NULL) OR (trial_starts_at IS NOT NULL AND trial_ends_at IS NOT NULL AND trial_ends_at > trial_starts_at)",
+      "status <> 'TRIAL' OR (trial_starts_at IS NOT NULL AND trial_ends_at IS NOT NULL)",
+      "(provider_subscription_id IS NULL) OR (payment_provider IS NOT NULL)",
+      "status IN ('TRIAL', 'ACTIVE', 'PAST_DUE', 'EXPIRED', 'CANCELLED', 'SUSPENDED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "status, trial_ends_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_subscription_history",
+    "purpose": "Append-only subscription transition snapshots; preserve past plan periods, amounts and effective access.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "subscription_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Subscription id"
+      },
+      {
+        "name": "plan_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Plan id"
+      },
+      {
+        "name": "event_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Event type"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Status"
+      },
+      {
+        "name": "starts_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Starts at"
+      },
+      {
+        "name": "ends_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Ends at"
+      },
+      {
+        "name": "trial_starts_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Trial starts at"
+      },
+      {
+        "name": "trial_ends_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Trial ends at"
+      },
+      {
+        "name": "price_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Price amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": null,
+        "purpose": "Currency"
+      },
+      {
+        "name": "billing_interval",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Billing interval"
+      },
+      {
+        "name": "feature_snapshot",
+        "type": "JSONB",
+        "nullable": false,
+        "default": null,
+        "purpose": "Feature snapshot"
+      },
+      {
+        "name": "changed_by",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Changed by"
+      },
+      {
+        "name": "reason",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Reason"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "subscription_id"
+        ],
+        "table": "organization_subscriptions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "plan_id"
+        ],
+        "table": "plans",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "changed_by"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ]
+    ],
+    "checks": [
+      "price_amount >= 0",
+      "currency ~ '^[A-Z]{3}$'",
+      "jsonb_typeof(feature_snapshot) = 'object'",
+      "status IN ('TRIAL','ACTIVE','PAST_DUE','EXPIRED','CANCELLED','SUSPENDED')",
+      "billing_interval IN ('TRIAL','MONTH','YEAR')",
+      "ends_at IS NULL OR ends_at > starts_at"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, created_at DESC",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "media_assets",
+    "purpose": "External-object metadata; PostgreSQL stores neither image binaries nor signed URLs.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "uploaded_by",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Uploaded by"
+      },
+      {
+        "name": "storage_provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Storage provider"
+      },
+      {
+        "name": "object_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Object key"
+      },
+      {
+        "name": "file_name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "File name"
+      },
+      {
+        "name": "file_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "File type"
+      },
+      {
+        "name": "file_size",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "File size"
+      },
+      {
+        "name": "url",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Public CDN URL when explicitly public; private delivery uses short-lived signed URLs."
+      },
+      {
+        "name": "visibility",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PRIVATE'",
+        "purpose": "Allowed values: PRIVATE, PUBLIC."
+      },
+      {
+        "name": "metadata",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Metadata"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      },
+      {
+        "name": "deleted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Soft deletion instant; history and foreign keys remain intact."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "uploaded_by"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "storage_provider",
+        "object_key"
+      ]
+    ],
+    "checks": [
+      "file_size > 0",
+      "jsonb_typeof(metadata) = 'object'",
+      "visibility IN ('PRIVATE', 'PUBLIC')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "class_types",
+    "purpose": "Tenant-specific classification; no industry-specific application rules.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "slug",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Slug"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, INACTIVE."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      },
+      {
+        "name": "deleted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Soft deletion instant; history and foreign keys remain intact."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "slug"
+      ]
+    ],
+    "checks": [
+      "slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'",
+      "status IN ('ACTIVE', 'INACTIVE')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "sessions",
+    "purpose": "Sellable session or program; actual dated classes are class_occurrences.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "class_type_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Class type id"
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "slug",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Slug"
+      },
+      {
+        "name": "short_description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Short description"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "session_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'GROUP'",
+        "purpose": "Allowed values: GROUP, ONE_TO_ONE, WORKSHOP, PROGRAM."
+      },
+      {
+        "name": "visibility",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PRIVATE'",
+        "purpose": "Allowed values: PUBLIC, PRIVATE, UNLISTED."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DRAFT'",
+        "purpose": "Allowed values: DRAFT, ACTIVE, PAUSED, ARCHIVED."
+      },
+      {
+        "name": "capacity",
+        "type": "INTEGER",
+        "nullable": true,
+        "default": null,
+        "purpose": "Capacity"
+      },
+      {
+        "name": "minimum_age",
+        "type": "SMALLINT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Minimum age"
+      },
+      {
+        "name": "maximum_age",
+        "type": "SMALLINT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Maximum age"
+      },
+      {
+        "name": "skill_level",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Skill level"
+      },
+      {
+        "name": "language",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Language"
+      },
+      {
+        "name": "duration_minutes",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": null,
+        "purpose": "Duration minutes"
+      },
+      {
+        "name": "cover_image_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Cover image id"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      },
+      {
+        "name": "deleted_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Soft deletion instant; history and foreign keys remain intact."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "class_type_id"
+        ],
+        "table": "class_types",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "cover_image_id"
+        ],
+        "table": "media_assets",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "slug"
+      ]
+    ],
+    "checks": [
+      "slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'",
+      "capacity IS NULL OR capacity > 0",
+      "duration_minutes BETWEEN 1 AND 1440",
+      "minimum_age IS NULL OR minimum_age BETWEEN 0 AND 150",
+      "maximum_age IS NULL OR maximum_age BETWEEN 0 AND 150",
+      "minimum_age IS NULL OR maximum_age IS NULL OR maximum_age >= minimum_age",
+      "session_type IN ('GROUP', 'ONE_TO_ONE', 'WORKSHOP', 'PROGRAM')",
+      "visibility IN ('PUBLIC', 'PRIVATE', 'UNLISTED')",
+      "status IN ('DRAFT', 'ACTIVE', 'PAUSED', 'ARCHIVED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, status, visibility",
+        "deleted_at IS NULL"
+      ],
+      [
+        "organization_id, class_type_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "session_instructors",
+    "purpose": "Staff assignment with primary, secondary or substitute responsibilities.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "organization_member_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Organization member id"
+      },
+      {
+        "name": "role",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PRIMARY'",
+        "purpose": "Allowed values: PRIMARY, SECONDARY, SUBSTITUTE."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "organization_member_id"
+        ],
+        "table": "organization_members",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "session_id",
+        "organization_member_id"
+      ]
+    ],
+    "checks": [
+      "role IN ('PRIMARY', 'SECONDARY', 'SUBSTITUTE')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, organization_member_id",
+        null
+      ],
+      [
+        "organization_id, session_id",
+        null
+      ],
+      [
+        "UNIQUE organization_id, session_id",
+        "role = 'PRIMARY'"
+      ]
+    ]
+  },
+  {
+    "name": "session_pricing",
+    "purpose": "Versionable access/pricing options; purchased values are copied into order items and enrollments.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "pricing_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ONE_TIME'",
+        "purpose": "Allowed values: ONE_TIME, MONTHLY, PACKAGE, PER_SESSION, CUSTOM."
+      },
+      {
+        "name": "amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": "'INR'",
+        "purpose": "Currency"
+      },
+      {
+        "name": "access_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DATE_RANGE'",
+        "purpose": "Allowed values: DATE_RANGE, NUMBER_OF_CLASSES, PROGRAM_DURATION, UNLIMITED."
+      },
+      {
+        "name": "access_duration_days",
+        "type": "INTEGER",
+        "nullable": true,
+        "default": null,
+        "purpose": "Access duration days"
+      },
+      {
+        "name": "included_class_count",
+        "type": "INTEGER",
+        "nullable": true,
+        "default": null,
+        "purpose": "Included class count"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, INACTIVE."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "session_id",
+        "id"
+      ]
+    ],
+    "checks": [
+      "amount >= 0",
+      "currency ~ '^[A-Z]{3}$'",
+      "access_duration_days IS NULL OR access_duration_days > 0",
+      "included_class_count IS NULL OR included_class_count > 0",
+      "(access_type = 'DATE_RANGE' AND access_duration_days IS NOT NULL AND included_class_count IS NULL) OR (access_type = 'NUMBER_OF_CLASSES' AND included_class_count IS NOT NULL AND access_duration_days IS NULL) OR (access_type IN ('PROGRAM_DURATION','UNLIMITED') AND access_duration_days IS NULL AND included_class_count IS NULL)",
+      "pricing_type IN ('ONE_TIME', 'MONTHLY', 'PACKAGE', 'PER_SESSION', 'CUSTOM')",
+      "access_type IN ('DATE_RANGE', 'NUMBER_OF_CLASSES', 'PROGRAM_DURATION', 'UNLIMITED')",
+      "status IN ('ACTIVE', 'INACTIVE')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, session_id, status",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "session_requirements",
+    "purpose": "Structured public prerequisites, equipment, preparation and notes.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "requirement_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PREREQUISITE'",
+        "purpose": "Allowed values: PREREQUISITE, EQUIPMENT, PREPARATION, NOTE."
+      },
+      {
+        "name": "title",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Title"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "is_required",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "false",
+        "purpose": "Is required"
+      },
+      {
+        "name": "display_order",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Display order"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ]
+    ],
+    "checks": [
+      "display_order >= 0",
+      "requirement_type IN ('PREREQUISITE', 'EQUIPMENT', 'PREPARATION', 'NOTE')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, session_id, display_order",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "session_schedule_rules",
+    "purpose": "Finite or open-ended weekly/local rules expanded only over a bounded rolling horizon. Local wall times intentionally use TIME and DATE.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "recurrence_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'WEEKLY'",
+        "purpose": "Allowed values: WEEKLY, ONE_TIME."
+      },
+      {
+        "name": "day_of_week",
+        "type": "SMALLINT",
+        "nullable": true,
+        "default": null,
+        "purpose": "ISO weekday 1=Monday to 7=Sunday for WEEKLY rules."
+      },
+      {
+        "name": "start_time",
+        "type": "TIME",
+        "nullable": false,
+        "default": null,
+        "purpose": "Start time"
+      },
+      {
+        "name": "end_time",
+        "type": "TIME",
+        "nullable": false,
+        "default": null,
+        "purpose": "End time"
+      },
+      {
+        "name": "end_day_offset",
+        "type": "SMALLINT",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Day offset for overnight classes (0 = same day, 1 = overnight)."
+      },
+      {
+        "name": "timezone",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Timezone"
+      },
+      {
+        "name": "effective_from",
+        "type": "DATE",
+        "nullable": false,
+        "default": null,
+        "purpose": "Effective from"
+      },
+      {
+        "name": "effective_until",
+        "type": "DATE",
+        "nullable": true,
+        "default": null,
+        "purpose": "Effective until"
+      },
+      {
+        "name": "is_active",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "true",
+        "purpose": "Is active"
+      },
+      {
+        "name": "dst_fold_policy",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'EARLIER'",
+        "purpose": "Dst fold policy"
+      },
+      {
+        "name": "dst_gap_policy",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'SKIP'",
+        "purpose": "Dst gap policy"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "session_id",
+        "id"
+      ]
+    ],
+    "checks": [
+      "(recurrence_type = 'WEEKLY' AND day_of_week IS NOT NULL AND day_of_week BETWEEN 1 AND 7) OR (recurrence_type = 'ONE_TIME' AND day_of_week IS NULL)",
+      "(end_day_offset = 0 AND end_time > start_time) OR (end_day_offset = 1 AND end_time <= start_time)",
+      "effective_until IS NULL OR effective_until >= effective_from",
+      "dst_fold_policy IN ('EARLIER','LATER')",
+      "dst_gap_policy = 'SKIP'",
+      "recurrence_type IN ('WEEKLY', 'ONE_TIME')",
+      "end_day_offset IN (0, 1)"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, session_id, is_active",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_integrations",
+    "purpose": "Provider-neutral connected accounts; encrypted tokens remain inaccessible to browser/public response models.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "account_identifier",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Account identifier"
+      },
+      {
+        "name": "encrypted_credentials",
+        "type": "BYTEA",
+        "nullable": true,
+        "default": null,
+        "purpose": "Encrypted credentials"
+      },
+      {
+        "name": "encryption_key_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Encryption key id"
+      },
+      {
+        "name": "configuration",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Configuration"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DISCONNECTED'",
+        "purpose": "Allowed values: CONNECTED, DISCONNECTED, ERROR."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "provider",
+        "account_identifier"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(configuration) = 'object'",
+      "(encrypted_credentials IS NULL) = (encryption_key_id IS NULL)",
+      "status IN ('CONNECTED', 'DISCONNECTED', 'ERROR')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "class_occurrences",
+    "purpose": "Dated execution of a session. Original time is immutable; actual time changes during rescheduling.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "schedule_rule_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Schedule rule id"
+      },
+      {
+        "name": "original_start_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Original start at"
+      },
+      {
+        "name": "original_end_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Original end at"
+      },
+      {
+        "name": "actual_start_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Actual start at"
+      },
+      {
+        "name": "actual_end_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Actual end at"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'SCHEDULED'",
+        "purpose": "Allowed values: SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED, POSTPONED, RESCHEDULED."
+      },
+      {
+        "name": "meeting_provider",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Meeting provider"
+      },
+      {
+        "name": "meeting_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Meeting id"
+      },
+      {
+        "name": "meeting_join_url",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Private attendee link; return only via authorization-checked join endpoint."
+      },
+      {
+        "name": "meeting_host_url_ciphertext",
+        "type": "BYTEA",
+        "nullable": true,
+        "default": null,
+        "purpose": "Meeting host url ciphertext"
+      },
+      {
+        "name": "integration_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Integration id"
+      },
+      {
+        "name": "notes",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Notes"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id",
+          "schedule_rule_id"
+        ],
+        "table": "session_schedule_rules",
+        "references": [
+          "organization_id",
+          "session_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "integration_id"
+        ],
+        "table": "organization_integrations",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "session_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "session_id",
+        "schedule_rule_id",
+        "original_start_at"
+      ]
+    ],
+    "checks": [
+      "original_end_at > original_start_at",
+      "actual_end_at > actual_start_at",
+      "meeting_join_url IS NULL OR meeting_provider IS NOT NULL",
+      "status IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'POSTPONED', 'RESCHEDULED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, actual_start_at, id",
+        null
+      ],
+      [
+        "organization_id, session_id, actual_start_at",
+        null
+      ],
+      [
+        "status, actual_start_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "class_occurrence_changes",
+    "purpose": "Immutable cancellation/rescheduling history; redacted snapshots never include meeting secrets.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "class_occurrence_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Class occurrence id"
+      },
+      {
+        "name": "change_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'UPDATED'",
+        "purpose": "Allowed values: CREATED, CANCELLED, RESCHEDULED, POSTPONED, UPDATED."
+      },
+      {
+        "name": "previous_data",
+        "type": "JSONB",
+        "nullable": true,
+        "default": null,
+        "purpose": "Previous data"
+      },
+      {
+        "name": "new_data",
+        "type": "JSONB",
+        "nullable": false,
+        "default": null,
+        "purpose": "New data"
+      },
+      {
+        "name": "reason",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Reason"
+      },
+      {
+        "name": "changed_by",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Changed by"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "class_occurrence_id"
+        ],
+        "table": "class_occurrences",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "changed_by"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(new_data) = 'object'",
+      "change_type IN ('CREATED', 'CANCELLED', 'RESCHEDULED', 'POSTPONED', 'UPDATED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, class_occurrence_id, created_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_payment_accounts",
+    "purpose": "Organization-owned settlement destination, independent of platform subscription billing.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "provider_account_id",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider account id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, ACTIVE, RESTRICTED, DISABLED."
+      },
+      {
+        "name": "configuration",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Configuration"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "provider",
+        "provider_account_id"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(configuration) = 'object'",
+      "status IN ('PENDING', 'ACTIVE', 'RESTRICTED', 'DISABLED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "orders",
+    "purpose": "Student commerce order with server-computed totals and a tenant-local student relationship.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "organization_student_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Organization student id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, PAYMENT_PENDING, PAID, FAILED, CANCELLED, REFUNDED, PARTIALLY_REFUNDED."
+      },
+      {
+        "name": "subtotal_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Subtotal amount"
+      },
+      {
+        "name": "discount_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Discount amount"
+      },
+      {
+        "name": "tax_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Tax amount"
+      },
+      {
+        "name": "total_amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Total amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": "'INR'",
+        "purpose": "Currency"
+      },
+      {
+        "name": "payment_status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'UNPAID'",
+        "purpose": "Allowed values: UNPAID, PENDING, PAID, FAILED, REFUNDED, PARTIALLY_REFUNDED."
+      },
+      {
+        "name": "idempotency_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Idempotency key"
+      },
+      {
+        "name": "expires_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Expires at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "organization_student_id"
+        ],
+        "table": "organization_students",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "idempotency_key"
+      ],
+      [
+        "organization_id",
+        "id",
+        "organization_student_id"
+      ]
+    ],
+    "checks": [
+      "subtotal_amount >= 0 AND discount_amount >= 0 AND tax_amount >= 0 AND total_amount >= 0",
+      "discount_amount <= subtotal_amount",
+      "total_amount = subtotal_amount - discount_amount + tax_amount",
+      "currency ~ '^[A-Z]{3}$'",
+      "status IN ('PENDING', 'PAYMENT_PENDING', 'PAID', 'FAILED', 'CANCELLED', 'REFUNDED', 'PARTIALLY_REFUNDED')",
+      "payment_status IN ('UNPAID', 'PENDING', 'PAID', 'FAILED', 'REFUNDED', 'PARTIALLY_REFUNDED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, organization_student_id, created_at DESC",
+        null
+      ],
+      [
+        "organization_id, status, created_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "order_items",
+    "purpose": "Immutable purchased session/pricing snapshot. Initial SESSION target has a real FK; other product types require an explicit migration.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "purchasable_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'SESSION'",
+        "purpose": "Allowed values: SESSION."
+      },
+      {
+        "name": "purchasable_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session identifier for the initial supported purchase type."
+      },
+      {
+        "name": "pricing_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Pricing id"
+      },
+      {
+        "name": "name_snapshot",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name snapshot"
+      },
+      {
+        "name": "quantity",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "1",
+        "purpose": "Quantity"
+      },
+      {
+        "name": "unit_price",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Unit price"
+      },
+      {
+        "name": "total_price",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Total price"
+      },
+      {
+        "name": "metadata",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Validated snapshot of access terms and tax/discount allocation; no payment credentials."
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "purchasable_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "purchasable_id",
+          "pricing_id"
+        ],
+        "table": "session_pricing",
+        "references": [
+          "organization_id",
+          "session_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "id",
+        "order_id",
+        "purchasable_id",
+        "pricing_id"
+      ]
+    ],
+    "checks": [
+      "quantity = 1",
+      "unit_price >= 0 AND total_price >= 0",
+      "total_price = quantity * unit_price",
+      "jsonb_typeof(metadata) = 'object'",
+      "purchasable_type IN ('SESSION')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, order_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "payments",
+    "purpose": "Provider-confirmed movement for a student order; provider IDs are globally idempotent per provider.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "organization_student_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Organization student id"
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "payment_account_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Payment account id"
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "provider_payment_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Provider payment id"
+      },
+      {
+        "name": "provider_order_id",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider order id"
+      },
+      {
+        "name": "amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": "'INR'",
+        "purpose": "Currency"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'CREATED'",
+        "purpose": "Allowed values: CREATED, AUTHORIZED, CAPTURED, FAILED, REFUNDED, PARTIALLY_REFUNDED."
+      },
+      {
+        "name": "payment_method",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Payment method"
+      },
+      {
+        "name": "provider_response",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Redacted provider summary; never retain PAN/CVV or full unfiltered secrets."
+      },
+      {
+        "name": "paid_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Paid at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "organization_student_id"
+        ],
+        "table": "organization_students",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id",
+          "organization_student_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id",
+          "organization_student_id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "payment_account_id"
+        ],
+        "table": "organization_payment_accounts",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "provider",
+        "provider_payment_id"
+      ],
+      [
+        "organization_id",
+        "id",
+        "order_id"
+      ]
+    ],
+    "checks": [
+      "amount >= 0",
+      "currency ~ '^[A-Z]{3}$'",
+      "jsonb_typeof(provider_response) = 'object'",
+      "status IN ('CREATED', 'AUTHORIZED', 'CAPTURED', 'FAILED', 'REFUNDED', 'PARTIALLY_REFUNDED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, order_id",
+        null
+      ],
+      [
+        "provider, provider_order_id",
+        null
+      ],
+      [
+        "organization_id, paid_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "payment_attempts",
+    "purpose": "One traceable provider checkout initiation attempt with redacted failure diagnostics.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "payment_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Payment id"
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "provider_order_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Provider order id"
+      },
+      {
+        "name": "idempotency_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Idempotency key"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'CREATED'",
+        "purpose": "Allowed values: CREATED, PENDING, SUCCEEDED, FAILED."
+      },
+      {
+        "name": "error_code",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Error code"
+      },
+      {
+        "name": "error_message",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Error message"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "payment_id",
+          "order_id"
+        ],
+        "table": "payments",
+        "references": [
+          "organization_id",
+          "id",
+          "order_id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "idempotency_key"
+      ],
+      [
+        "provider",
+        "provider_order_id"
+      ]
+    ],
+    "checks": [
+      "status IN ('CREATED', 'PENDING', 'SUCCEEDED', 'FAILED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, order_id, created_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "refunds",
+    "purpose": "Idempotent refund request and provider outcome. Aggregate refund amount is checked transactionally under payment lock.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "payment_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Payment id"
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "provider_refund_id",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Provider refund id"
+      },
+      {
+        "name": "idempotency_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Idempotency key"
+      },
+      {
+        "name": "amount",
+        "type": "BIGINT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Amount"
+      },
+      {
+        "name": "currency",
+        "type": "CHAR(3)",
+        "nullable": false,
+        "default": null,
+        "purpose": "Currency"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'REQUESTED'",
+        "purpose": "Allowed values: REQUESTED, PROCESSING, SUCCEEDED, FAILED."
+      },
+      {
+        "name": "reason",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Reason"
+      },
+      {
+        "name": "requested_by",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Requested by"
+      },
+      {
+        "name": "processed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Processed at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "payment_id",
+          "order_id"
+        ],
+        "table": "payments",
+        "references": [
+          "organization_id",
+          "id",
+          "order_id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "requested_by"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "provider",
+        "provider_refund_id"
+      ],
+      [
+        "organization_id",
+        "idempotency_key"
+      ]
+    ],
+    "checks": [
+      "amount > 0",
+      "currency ~ '^[A-Z]{3}$'",
+      "status IN ('REQUESTED', 'PROCESSING', 'SUCCEEDED', 'FAILED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, payment_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "payment_webhook_events",
+    "purpose": "Verified provider webhook inbox. Organization/order are resolved from trusted provider order references, never caller tenant claims.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Organization id"
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "provider",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Provider"
+      },
+      {
+        "name": "event_id",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Event id"
+      },
+      {
+        "name": "event_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Event type"
+      },
+      {
+        "name": "payload",
+        "type": "JSONB",
+        "nullable": false,
+        "default": null,
+        "purpose": "Redacted verified event data; apply documented retention period."
+      },
+      {
+        "name": "payload_sha256",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Payload sha256"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'RECEIVED'",
+        "purpose": "Allowed values: RECEIVED, PROCESSING, PROCESSED, FAILED, IGNORED."
+      },
+      {
+        "name": "attempts",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Attempts"
+      },
+      {
+        "name": "processed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Processed at"
+      },
+      {
+        "name": "error_message",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Error message"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "provider",
+        "event_id"
+      ]
+    ],
+    "checks": [
+      "attempts >= 0",
+      "jsonb_typeof(payload) = 'object'",
+      "order_id IS NULL OR organization_id IS NOT NULL",
+      "status IN ('RECEIVED', 'PROCESSING', 'PROCESSED', 'FAILED', 'IGNORED')"
+    ],
+    "indexes": [
+      [
+        "status, created_at",
+        null
+      ],
+      [
+        "organization_id, order_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "session_enrollments",
+    "purpose": "Purchased access grant; each order item activates at most once. Renewal creates another grant and preserves prior payment history.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "organization_student_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Organization student id"
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "pricing_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Pricing id"
+      },
+      {
+        "name": "order_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order id"
+      },
+      {
+        "name": "order_item_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Order item id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, ACTIVE, PAUSED, EXPIRED, CANCELLED, COMPLETED."
+      },
+      {
+        "name": "access_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DATE_RANGE'",
+        "purpose": "Allowed values: DATE_RANGE, NUMBER_OF_CLASSES, PROGRAM_DURATION, UNLIMITED."
+      },
+      {
+        "name": "access_starts_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": null,
+        "purpose": "Access starts at"
+      },
+      {
+        "name": "access_ends_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Access ends at"
+      },
+      {
+        "name": "included_class_count",
+        "type": "INTEGER",
+        "nullable": true,
+        "default": null,
+        "purpose": "Included class count"
+      },
+      {
+        "name": "remaining_class_count",
+        "type": "INTEGER",
+        "nullable": true,
+        "default": null,
+        "purpose": "Remaining class count"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "organization_student_id"
+        ],
+        "table": "organization_students",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id"
+        ],
+        "table": "sessions",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id",
+          "pricing_id"
+        ],
+        "table": "session_pricing",
+        "references": [
+          "organization_id",
+          "session_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_id",
+          "organization_student_id"
+        ],
+        "table": "orders",
+        "references": [
+          "organization_id",
+          "id",
+          "organization_student_id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "order_item_id",
+          "order_id",
+          "session_id",
+          "pricing_id"
+        ],
+        "table": "order_items",
+        "references": [
+          "organization_id",
+          "id",
+          "order_id",
+          "purchasable_id",
+          "pricing_id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "order_item_id"
+      ],
+      [
+        "organization_id",
+        "id",
+        "session_id",
+        "organization_student_id"
+      ]
+    ],
+    "checks": [
+      "access_ends_at IS NULL OR access_ends_at > access_starts_at",
+      "(access_type = 'NUMBER_OF_CLASSES' AND included_class_count IS NOT NULL AND remaining_class_count IS NOT NULL AND included_class_count > 0 AND remaining_class_count BETWEEN 0 AND included_class_count) OR (access_type <> 'NUMBER_OF_CLASSES' AND included_class_count IS NULL AND remaining_class_count IS NULL)",
+      "access_type NOT IN ('DATE_RANGE','PROGRAM_DURATION') OR access_ends_at IS NOT NULL",
+      "status IN ('PENDING', 'ACTIVE', 'PAUSED', 'EXPIRED', 'CANCELLED', 'COMPLETED')",
+      "access_type IN ('DATE_RANGE', 'NUMBER_OF_CLASSES', 'PROGRAM_DURATION', 'UNLIMITED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, organization_student_id, status",
+        null
+      ],
+      [
+        "organization_id, session_id, status",
+        null
+      ],
+      [
+        "status, access_ends_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "attendance_records",
+    "purpose": "One attendance decision per student and occurrence; links the precise enrollment used for access.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "class_occurrence_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Class occurrence id"
+      },
+      {
+        "name": "session_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Session id"
+      },
+      {
+        "name": "organization_student_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Organization student id"
+      },
+      {
+        "name": "enrollment_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Enrollment id"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PRESENT'",
+        "purpose": "Allowed values: PRESENT, ABSENT, LATE, EXCUSED."
+      },
+      {
+        "name": "marked_by",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Marked by"
+      },
+      {
+        "name": "marked_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Marked at"
+      },
+      {
+        "name": "notes",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Notes"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "session_id",
+          "class_occurrence_id"
+        ],
+        "table": "class_occurrences",
+        "references": [
+          "organization_id",
+          "session_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "organization_student_id"
+        ],
+        "table": "organization_students",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "enrollment_id",
+          "session_id",
+          "organization_student_id"
+        ],
+        "table": "session_enrollments",
+        "references": [
+          "organization_id",
+          "id",
+          "session_id",
+          "organization_student_id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "marked_by"
+        ],
+        "table": "organization_members",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id",
+        "class_occurrence_id",
+        "organization_student_id"
+      ],
+      [
+        "organization_id",
+        "id",
+        "enrollment_id"
+      ]
+    ],
+    "checks": [
+      "status IN ('PRESENT', 'ABSENT', 'LATE', 'EXCUSED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, enrollment_id",
+        null
+      ],
+      [
+        "organization_id, organization_student_id, marked_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "attendance_consumptions",
+    "purpose": "Idempotent package usage ledger. Lock enrollment and ledger before toggling consumed state or restoring a class.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "attendance_record_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Attendance record id"
+      },
+      {
+        "name": "enrollment_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Enrollment id"
+      },
+      {
+        "name": "consumed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Consumed at"
+      },
+      {
+        "name": "reversed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Reversed at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "attendance_record_id",
+          "enrollment_id"
+        ],
+        "table": "attendance_records",
+        "references": [
+          "organization_id",
+          "id",
+          "enrollment_id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "enrollment_id"
+        ],
+        "table": "session_enrollments",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "attendance_record_id"
+      ]
+    ],
+    "checks": [
+      "reversed_at IS NULL OR reversed_at >= consumed_at"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "organization_id, enrollment_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "website_templates",
+    "purpose": "Versioned fixed-layout catalogue. Application renders templates; arbitrary HTML is forbidden.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "name",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Name"
+      },
+      {
+        "name": "slug",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Slug"
+      },
+      {
+        "name": "description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Description"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'ACTIVE'",
+        "purpose": "Allowed values: ACTIVE, ARCHIVED."
+      },
+      {
+        "name": "preview_image_url",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Preview image url"
+      },
+      {
+        "name": "template_version",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "1",
+        "purpose": "Template version"
+      },
+      {
+        "name": "is_available",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "true",
+        "purpose": "Is available"
+      },
+      {
+        "name": "configuration_schema",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Configuration schema"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [],
+    "uniques": [
+      [
+        "slug",
+        "template_version"
+      ]
+    ],
+    "checks": [
+      "template_version > 0",
+      "jsonb_typeof(configuration_schema) = 'object'",
+      "status IN ('ACTIVE', 'ARCHIVED')"
+    ],
+    "indexes": []
+  },
+  {
+    "name": "organization_websites",
+    "purpose": "Separate draft and published content snapshots prevent unreviewed edits leaking onto the public site.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "template_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Template id"
+      },
+      {
+        "name": "website_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DEFAULT'",
+        "purpose": "Allowed values: DEFAULT, ADVANCED."
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'DRAFT'",
+        "purpose": "Allowed values: DRAFT, PUBLISHED, UNPUBLISHED."
+      },
+      {
+        "name": "configuration",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Draft content validated against the selected template version."
+      },
+      {
+        "name": "published_configuration",
+        "type": "JSONB",
+        "nullable": true,
+        "default": null,
+        "purpose": "Published configuration"
+      },
+      {
+        "name": "published_template_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Published template id"
+      },
+      {
+        "name": "published_website_type",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Published website type"
+      },
+      {
+        "name": "published_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Published at"
+      },
+      {
+        "name": "seo_title",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Seo title"
+      },
+      {
+        "name": "seo_description",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Seo description"
+      },
+      {
+        "name": "og_image_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Og image id"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "template_id"
+        ],
+        "table": "website_templates",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "published_template_id"
+        ],
+        "table": "website_templates",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id",
+          "og_image_id"
+        ],
+        "table": "media_assets",
+        "references": [
+          "organization_id",
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "organization_id"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(configuration) = 'object'",
+      "published_configuration IS NULL OR jsonb_typeof(published_configuration) = 'object'",
+      "(website_type = 'DEFAULT' AND template_id IS NULL) OR (website_type = 'ADVANCED' AND template_id IS NOT NULL)",
+      "published_website_type IS NULL OR published_website_type IN ('DEFAULT','ADVANCED')",
+      "status <> 'PUBLISHED' OR (published_at IS NOT NULL AND published_configuration IS NOT NULL AND published_website_type IS NOT NULL)",
+      "published_website_type <> 'ADVANCED' OR published_template_id IS NOT NULL",
+      "website_type IN ('DEFAULT', 'ADVANCED')",
+      "status IN ('DRAFT', 'PUBLISHED', 'UNPUBLISHED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "organization_domains",
+    "purpose": "Reserved support for verified custom domains; DNS automation is deferred.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "Owning tenant; always filter tenant reads by this column."
+      },
+      {
+        "name": "hostname",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Hostname"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, VERIFIED, ACTIVE, FAILED, DISABLED."
+      },
+      {
+        "name": "verification_token_hash",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Verification token hash"
+      },
+      {
+        "name": "verified_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Verified at"
+      },
+      {
+        "name": "is_primary",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "false",
+        "purpose": "Is primary"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "organization_id",
+        "id"
+      ],
+      [
+        "hostname"
+      ]
+    ],
+    "checks": [
+      "hostname = lower(btrim(hostname)) AND position('.' IN hostname) > 1",
+      "status IN ('PENDING', 'VERIFIED', 'ACTIVE', 'FAILED', 'DISABLED')"
+    ],
+    "indexes": [
+      [
+        "organization_id",
+        null
+      ],
+      [
+        "UNIQUE organization_id",
+        "is_primary = true"
+      ]
+    ]
+  },
+  {
+    "name": "notifications",
+    "purpose": "Per-user delivery record, channel-independent. Public APIs never read this table.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Organization id"
+      },
+      {
+        "name": "event_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Event type"
+      },
+      {
+        "name": "channel",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'IN_APP'",
+        "purpose": "Allowed values: IN_APP, EMAIL, WHATSAPP, SMS, PUSH."
+      },
+      {
+        "name": "title",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Title"
+      },
+      {
+        "name": "message",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Message"
+      },
+      {
+        "name": "metadata",
+        "type": "JSONB",
+        "nullable": false,
+        "default": "'{}'::jsonb",
+        "purpose": "Metadata"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, SENT, FAILED, READ."
+      },
+      {
+        "name": "idempotency_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Idempotency key"
+      },
+      {
+        "name": "read_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Read at"
+      },
+      {
+        "name": "sent_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Sent at"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "user_id",
+        "channel",
+        "idempotency_key"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(metadata) = 'object'",
+      "channel IN ('IN_APP', 'EMAIL', 'WHATSAPP', 'SMS', 'PUSH')",
+      "status IN ('PENDING', 'SENT', 'FAILED', 'READ')"
+    ],
+    "indexes": [
+      [
+        "user_id, created_at DESC",
+        null
+      ],
+      [
+        "organization_id, status",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "notification_preferences",
+    "purpose": "User-controlled event/channel preferences, optionally overridden for an organization.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": false,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Organization id"
+      },
+      {
+        "name": "event_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Event type"
+      },
+      {
+        "name": "channel",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'EMAIL'",
+        "purpose": "Allowed values: IN_APP, EMAIL, WHATSAPP, SMS, PUSH."
+      },
+      {
+        "name": "enabled",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "default": "true",
+        "purpose": "Enabled"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [],
+    "checks": [
+      "channel IN ('IN_APP', 'EMAIL', 'WHATSAPP', 'SMS', 'PUSH')"
+    ],
+    "indexes": [
+      [
+        "UNIQUE user_id, event_type, channel",
+        "organization_id IS NULL"
+      ],
+      [
+        "UNIQUE user_id, organization_id, event_type, channel",
+        "organization_id IS NOT NULL"
+      ]
+    ]
+  },
+  {
+    "name": "outbox_events",
+    "purpose": "Transactional, at-least-once work queue for reliable notifications, scheduling and integrations. Workers must be idempotent.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Organization id"
+      },
+      {
+        "name": "topic",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Topic"
+      },
+      {
+        "name": "aggregate_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Aggregate type"
+      },
+      {
+        "name": "aggregate_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Aggregate id"
+      },
+      {
+        "name": "idempotency_key",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Idempotency key"
+      },
+      {
+        "name": "payload",
+        "type": "JSONB",
+        "nullable": false,
+        "default": null,
+        "purpose": "Payload"
+      },
+      {
+        "name": "status",
+        "type": "TEXT",
+        "nullable": false,
+        "default": "'PENDING'",
+        "purpose": "Allowed values: PENDING, PROCESSING, COMPLETED, DEAD."
+      },
+      {
+        "name": "attempts",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "0",
+        "purpose": "Attempts"
+      },
+      {
+        "name": "max_attempts",
+        "type": "INTEGER",
+        "nullable": false,
+        "default": "8",
+        "purpose": "Max attempts"
+      },
+      {
+        "name": "available_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Available at"
+      },
+      {
+        "name": "locked_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Locked at"
+      },
+      {
+        "name": "locked_by",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Locked by"
+      },
+      {
+        "name": "completed_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": true,
+        "default": null,
+        "purpose": "Completed at"
+      },
+      {
+        "name": "last_error",
+        "type": "TEXT",
+        "nullable": true,
+        "default": null,
+        "purpose": "Last error"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      },
+      {
+        "name": "updated_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Last mutation instant; application updates this field."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [
+      [
+        "topic",
+        "idempotency_key"
+      ]
+    ],
+    "checks": [
+      "jsonb_typeof(payload) = 'object'",
+      "attempts >= 0 AND max_attempts > 0 AND attempts <= max_attempts",
+      "status <> 'PROCESSING' OR (locked_at IS NOT NULL AND locked_by IS NOT NULL)",
+      "status IN ('PENDING', 'PROCESSING', 'COMPLETED', 'DEAD')"
+    ],
+    "indexes": [
+      [
+        "available_at, created_at",
+        "status = 'PENDING'"
+      ],
+      [
+        "locked_at",
+        "status = 'PROCESSING'"
+      ],
+      [
+        "organization_id, created_at",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "audit_logs",
+    "purpose": "Append-only business/admin audit history; snapshots are explicitly redacted and exclude credentials, OTPs and payment secrets.",
+    "columns": [
+      {
+        "name": "id",
+        "type": "UUID",
+        "nullable": false,
+        "default": "gen_random_uuid()",
+        "purpose": "Stable record identifier."
+      },
+      {
+        "name": "organization_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Organization id"
+      },
+      {
+        "name": "user_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "User id"
+      },
+      {
+        "name": "entity_type",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Entity type"
+      },
+      {
+        "name": "entity_id",
+        "type": "UUID",
+        "nullable": true,
+        "default": null,
+        "purpose": "Entity id"
+      },
+      {
+        "name": "action",
+        "type": "TEXT",
+        "nullable": false,
+        "default": null,
+        "purpose": "Action"
+      },
+      {
+        "name": "old_data",
+        "type": "JSONB",
+        "nullable": true,
+        "default": null,
+        "purpose": "Old data"
+      },
+      {
+        "name": "new_data",
+        "type": "JSONB",
+        "nullable": true,
+        "default": null,
+        "purpose": "New data"
+      },
+      {
+        "name": "ip_address",
+        "type": "INET",
+        "nullable": true,
+        "default": null,
+        "purpose": "Ip address"
+      },
+      {
+        "name": "created_at",
+        "type": "TIMESTAMPTZ",
+        "nullable": false,
+        "default": "now()",
+        "purpose": "Creation instant in UTC."
+      }
+    ],
+    "fks": [
+      {
+        "columns": [
+          "organization_id"
+        ],
+        "table": "organizations",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      },
+      {
+        "columns": [
+          "user_id"
+        ],
+        "table": "users",
+        "references": [
+          "id"
+        ],
+        "on_delete": "RESTRICT"
+      }
+    ],
+    "uniques": [],
+    "checks": [],
+    "indexes": [
+      [
+        "organization_id, created_at DESC",
+        null
+      ],
+      [
+        "user_id, created_at DESC",
+        null
+      ],
+      [
+        "entity_type, entity_id, created_at",
+        null
+      ]
+    ]
+  }
+]
