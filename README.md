@@ -6,8 +6,8 @@ ProgressRooms is a production-grade multi-tenant operating platform for teachers
 
 This workspace contains two distinct production repositories:
 
-1. [`progressrooms-web`](./progressrooms-web): Frontend application built with Next.js 14 (App Router, SSR, TypeScript, Tailwind CSS).
-2. [`progressrooms-api`](./progressrooms-api): Backend API service built with FastAPI, SQLAlchemy 2.0 (async), PostgreSQL, Alembic, and Razorpay commerce integration.
+1. [`progressrooms-web`](https://github.com/sahilambekar-ai/progressrooms-web): Frontend application built with Next.js 14 (App Router, SSR, TypeScript, Tailwind CSS).
+2. [`progressrooms-api`](https://github.com/sahilambekar-ai/progressrooms-api): Backend API service built with FastAPI, SQLAlchemy 2.0 (async), PostgreSQL, Alembic, and Razorpay commerce integration.
 
 Shared engineering specifications and architectural design documents are maintained in [`docs/`](./docs).
 
