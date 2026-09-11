@@ -17,6 +17,7 @@ This tracker documents every feature, design decision, current status, and exact
 | **FEAT-07** | **Brevo Email Service Integration** (Transactional OTP & Notifications) | 🟢 COMPLETED | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
 | **FEAT-08** | **Public Teacher SSR Website in Nature Theme** (Schedule & bio SSR) | 🟢 PREVIEW_READY | [FEAT-04 Doc](features/FEAT-04-admin-portal.md) |
 | **FEAT-09** | **Student Portal in Nature Theme** (Countdown & Zoom Join) | 🟢 PREVIEW_READY | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
+| **FEAT-10** | **Studio Account Completion & Zoom Authentication** (Multi-step wizard, default landing, auto-Zoom batch links & Profiler) | 🟢 COMPLETED | [FEAT-10 Doc](features/FEAT-10-studio-account-completion-zoom.md) |
 
 ---
 
