@@ -35,8 +35,15 @@ Provides a comprehensive multi-step account onboarding and completion flow for n
     - When incomplete (`!user.account_completed`): Positioned as the **FIRST ITEM** at the top of the Studio Operations menu, displaying live `{percentage}% Completed` (e.g. `20% Completed`, `50% Completed`, `67% Completed`).
     - When 100% completed: Dynamically shifts to become the **SECOND LAST ITEM** (placed right after "Studio Analytics" and before "Settings"), displaying `✓ Complete`.
   - **Default Landing**: If `!user.account_completed`, newly registered or logged-in studios automatically land on the Account Completion tab.
-  - **6-Step Setup Wizard with Complete & Incomplete States**:
-    - Navigation track renders 6 distinct steps with bespoke icons (`Building2`, `MapPin`, `FileText`, `Landmark`, `Video`, `ShieldCheck`), step numbers `01`-`06`, and granular status chips (`✓ Complete` in emerald, `Incomplete` in amber, `In Progress` in forest green).
+  - **Reference-Inspired Responsive Multi-Step Architecture**:
+    - **Desktop Layout (`>= lg`)**:
+      - **Left Sidebar Vertical Stepper Card**: Sticky floating card with studio emblem, 6 connected vertical timeline nodes with continuous vertical lines, step tracking numbers (`STEP 01`-`06`), titles, status pill badges (`Completed`, `In Progress`, `Incomplete`), and bottom "Having troubles? Contact Concierge" support box.
+      - **Right Column Panoramic Stepper**: Horizontal timeline track connecting all 6 steps with continuous lines, circular icon nodes, and status chips.
+      - **Active Step Form Card**: Elevated card with circular step icon badge, `STEP X/6`, bold title, card-level linear progress bar running under the header, uppercase grouped sections, and navigation footer (`← Previous Step` & `Next Step →`).
+    - **Mobile Layout (`< lg`)**:
+      - **Top Mobile Step Header**: Compact card with step icon, Step X of 6 counter, title, status badge, and full-width linear progress bar.
+      - **Swipeable Quick-Step Pills Rail**: Horizontal scroll rail with 6 touch capsules (`01 Contact`, `02 Location`, `03 GST`, `04 Bank`, `05 Zoom`, `06 Launch`) with completion checks for quick finger navigation.
+      - **Touch-Friendly Form Card & Mobile Assistance Box**: Full-width inputs and bottom support card.
     1. **Step 1: Studio Contact & Phone**: Studio name, primary mobile phone (synchronized to user account), dedicated WhatsApp contact, support email, tagline, and disciplines.
     2. **Step 2: Studio Location & Teaching Mode**: Physical / Online / Hybrid mode selector with complete street address, city, state, and pincode.
     3. **Step 3: GST & Legal Business Identity**: Has GST toggle, 15-digit GSTIN validation, registered legal entity name, and PAN number.
