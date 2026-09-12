@@ -31,14 +31,18 @@ Provides a comprehensive multi-step account onboarding and completion flow for n
 
 ### 3. Frontend Multi-Step Wizard & Default Landing Page
 - **File**: `progressrooms-web/src/app/(dashboard)/dashboard/page.tsx`
-  - **Left Sidebar Navigation**: Added "Account Completion" item with live badge (`Setup Req.` when pending, `✓ Done` when completed).
+  - **Dynamic Left Sidebar Placement & Badging**:
+    - When incomplete (`!user.account_completed`): Positioned as the **FIRST ITEM** at the top of the Studio Operations menu, displaying live `{percentage}% Completed` (e.g. `20% Completed`, `50% Completed`, `67% Completed`).
+    - When 100% completed: Dynamically shifts to become the **SECOND LAST ITEM** (placed right after "Studio Analytics" and before "Settings"), displaying `✓ Complete`.
   - **Default Landing**: If `!user.account_completed`, newly registered or logged-in studios automatically land on the Account Completion tab.
-  - **5-Step Setup Wizard**:
-    1. Studio Profile & Primary Mobile Phone (with WhatsApp preference)
-    2. Teaching Location (Physical/Online/Hybrid) & Optional GST Number (GSTIN + Legal Name + PAN)
-    3. Bank & Payout Configuration (The "Thanks" perspective: Bank Name, Account Holder, Account Number with confirmation, IFSC, UPI ID, Settlement Cycle)
-    4. Zoom Live Video Authentication (One-Click OAuth or Server-to-Server credentials, auto-meeting creation toggle, waiting room, host video, and test room generation)
-    5. Review & Launch Sanctuary: Summary card and launch button that persists completion and redirects to the Profiler.
+  - **6-Step Setup Wizard with Complete & Incomplete States**:
+    - Navigation track renders 6 distinct steps with bespoke icons (`Building2`, `MapPin`, `FileText`, `Landmark`, `Video`, `ShieldCheck`), step numbers `01`-`06`, and granular status chips (`✓ Complete` in emerald, `Incomplete` in amber, `In Progress` in forest green).
+    1. **Step 1: Studio Contact & Phone**: Studio name, primary mobile phone (synchronized to user account), dedicated WhatsApp contact, support email, tagline, and disciplines.
+    2. **Step 2: Studio Location & Teaching Mode**: Physical / Online / Hybrid mode selector with complete street address, city, state, and pincode.
+    3. **Step 3: GST & Legal Business Identity**: Has GST toggle, 15-digit GSTIN validation, registered legal entity name, and PAN number.
+    4. **Step 4: Bank Account & Fee Settlements ("The Thanks Perspective")**: Account holder name, bank name, account number with confirmation validation, IFSC code, UPI ID, and settlement frequency.
+    5. **Step 5: Zoom Live Classroom Authentication**: One-Click OAuth / Server Credentials tabs, virtual classroom defaults (waiting room, host video, auto-creation), and live test room generator.
+    6. **Step 6: Review, Verification Checklist & Sanctuary Launch**: 5 review summary cards with direct jump-to-step editing, readiness verification checklist, and final "Complete Studio Setup & Launch" action which seals the account at 100% and redirects to the Profiler.
 
 ### 4. Automated Zoom Meeting Generation for Class Batches
 - When `zoomConnected && zoomAutoMeetingEnabled`:
