@@ -1,4 +1,6 @@
-# Complete PostgreSQL schema
+# PostgreSQL schema blueprint
+
+> Runtime update (2026-09-25): the implemented role model is documented in [Account roles](account-roles.md), with current ORM DDL in [runtime-schema.sql](runtime-schema.sql). The catalogue below is the earlier full-domain design, not the installed Alembic schema. In the running application, users.role is mandatory (SUPER_ADMIN, STUDIO, TEACHER, STUDENT); staff membership roles are STUDIO/TEACHER, and organization_students.teacher_member_id is constrained to the same studio.
 
 Target: PostgreSQL 16. The initial migration creates the complete domain model; existence of a table does not imply that its business endpoints are implemented. `schema.sql` is the readable DDL and `schema-inventory.json` is the machine-readable catalogue. The immutable SQL copy in the API migration folder is what Alembic executes.
 

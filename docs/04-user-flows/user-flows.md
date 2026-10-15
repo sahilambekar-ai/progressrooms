@@ -49,7 +49,9 @@ Visitor opens `/{organization_slug}`, browses active public sessions and views a
 
 Student opens an upcoming occurrence. Server checks ownership, active enrollment, applicable access interval/credits, occurrence state and join window before returning a private join URL. Teacher host URLs require separate authorization. A cancelled occurrence has no join action.
 
-Owner/admin or assigned instructor marks attendance. For a package, PRESENT/LATE consumes one credit under a transaction and unique attendance/consumption key. Repeated submission is harmless. Correcting attendance reverses only a prior consumption, appends audit history and recalculates reminders. ABSENT/EXCUSED initially do not consume; any later cancellation/no-show policy must be explicit in purchased terms.
+The studio owner can mark or correct teacher and student attendance for the studio. A teacher can mark or correct only an assigned student's attendance in the teacher's assigned class, and cannot edit any teacher attendance record, including their own. For a package, PRESENT/LATE consumes one credit under a transaction and unique attendance/consumption key. Repeated submission is harmless. Correcting student attendance reverses only a prior consumption, appends audit history and recalculates reminders. ABSENT/EXCUSED initially do not consume; any later cancellation/no-show policy must be explicit in purchased terms.
+
+Students cannot mark or correct attendance. From Student Queries, a student selects one of their active sessions and submits either a postpone request for a future occurrence or an extension request for the enrollment. The request is addressed to their assigned teacher; that teacher can approve or reject it. Approval does not alter a class or enrollment automatically—the existing rescheduling or extension command performs the change after the decision, preserving its own audit and conflict checks.
 
 ## Renewal and notifications
 

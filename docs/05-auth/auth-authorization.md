@@ -1,3 +1,5 @@
+> Updated implementation: see [Account roles and permissions](../03-database/account-roles.md). The original design below is superseded for account roles, registration, and teacher permissions.
+
 # Authentication and session security
 
 Status: email OTP and server authorization are foundation scope. Social login, password login, invitations and privileged MFA are later work.

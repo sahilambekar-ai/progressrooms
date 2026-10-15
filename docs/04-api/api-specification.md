@@ -66,7 +66,12 @@ No foundation route changes a paid subscription or accepts live payment. Foundat
 | GET `O/calendar` | OWNER/ADMIN all; INSTRUCTOR assigned | `from,to,instructor_id?,session_id?,status?` | `{items:[Occurrence]}`; 422 interval exceeds bound |
 | POST `O/occurrences/{id}/reschedule` | OWNER/ADMIN | `{actual_start_at,actual_end_at,reason,revision}` | Occurrence + conflicts; 409 completed/stale |
 | POST `O/occurrences/{id}/cancel` | OWNER/ADMIN | `{reason,revision}` | Cancelled Occurrence; 409 completed/stale |
-| PUT `O/occurrences/{id}/attendance/{student_id}` | OWNER/ADMIN or assigned instructor | `{status,enrollment_id,notes?,revision?}` | Attendance + current balance; 409 unavailable credit; 404 foreign student/enrollment |
+| PUT `O/occurrences/{id}/attendance/students/{student_id}` | Studio owner, or assigned teacher for an assigned student | `{status,enrollment_id,notes?,revision?}` | Student attendance + current balance; 403 teacher's own/foreign/unassigned record; 409 unavailable credit; 404 foreign student/enrollment |
+| PUT `O/occurrences/{id}/attendance/teachers/{member_id}` | Studio owner only | `{status,notes?,revision?}` | Teacher attendance; 403 for every teacher, including `member_id` equal to caller; 404 foreign/unassigned teacher |
+| POST `/student/session-queries` | Student, own active enrollment with assigned teacher | `{enrollment_id,request_type:"POSTPONE"|"EXTEND",occurrence_id?,message}` | 201 query; `occurrence_id` required for POSTPONE; 403/404 for another student's, inactive, foreign, or unassigned relationship |
+| GET `/teacher/session-queries` | Teacher | `status?,cursor?,limit?` | Queries addressed to the caller only |
+| POST `/teacher/session-queries/{id}/resolve` | Assigned teacher only | `{status:"APPROVED"|"REJECTED",response?}` | Resolved query; 409 already resolved/withdrawn |
+| POST `/student/session-queries/{id}/withdraw` | Requesting student only | None | Withdrawn pending query; 409 already resolved/withdrawn |
 | GET `O/students` | OWNER/ADMIN; assigned minimal roster for instructor | `cursor?,limit?,session_id?` | Redacted student list; no cross-student self-service access |
 
 ## Planned public, commerce and student endpoints

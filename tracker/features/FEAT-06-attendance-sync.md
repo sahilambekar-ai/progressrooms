@@ -41,3 +41,14 @@ The Attendance Tracker tab (`/dashboard -> Attendance Tracker`) enables studio i
    - Return to the Attendance Tracker.
    - Click the green button **"Mark All Present"**.
    - Verify all students display the green `ATTENDED` badge and a toast confirms: `"All students marked as ATTENDED"`.
+
+## 5. Person Attendance Views
+
+The main Attendance Tracker now opens on **Teacher attendance** and also provides a **Student attendance** tab. Each tab has an independent person selector whose results load 300 ms after typing. Selecting a person limits both the Month calendar and Day view to that person. The existing batch checklist remains available as a secondary expandable tool.
+
+Teacher and student management tables open a read-only details pop-up when a row is selected. Their table action and pop-up action both open Attendance Tracker with the correct tab and person preselected in Month view.
+
+Verification completed on 2026-09-25:
+
+- TypeScript validation and whitespace checks pass.
+- Browser check confirmed Teacher is the default tab, Student search results, person-filtered Month view, Day mode, the student details pop-up, and preselected Month navigation from its View attendance action.

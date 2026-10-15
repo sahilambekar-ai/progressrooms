@@ -1,3 +1,5 @@
+> Updated implementation: see [Account roles and permissions](../03-database/account-roles.md). The original design below is superseded for account roles, registration, and teacher permissions.
+
 # Roles and authorization matrix
 
 Status: foundation role model; operations for later modules remain planned until their endpoints are implemented.
@@ -21,7 +23,10 @@ Authorization is a backend decision. All staff permissions require an active mem
 | Cancel / reschedule occurrence | Audited support route | Yes | Yes | No initially | No |
 | Read students / enrollments | Audited minimal support view | Organization | Organization | Assigned roster, minimal fields | Own |
 | Edit private student notes | Audited support route | Yes | Yes | No initially | No |
-| Mark / correct attendance | Audited support route | Yes | Yes | Assigned | No |
+| Edit teacher attendance | Audited support route | Yes | Yes | No, including own record | No |
+| Edit student attendance | Audited support route | Yes | Yes | Assigned class and assigned student only | No |
+| Submit session postpone / extension query | No | No | No | No | Own active enrollment, to assigned teacher |
+| Resolve assigned student query | Audited support route | Read only | Read only | Assigned teacher only | Withdraw own pending query only |
 | Read meeting join link | No implicit access | Organization class | Organization class | Assigned | Own valid access |
 | Read host/start meeting URL | No implicit access | Host management policy | Host management policy | Assigned host | No |
 | Browse published public pages | Public rules | Public rules | Public rules | Public rules | Yes |
