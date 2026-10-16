@@ -24,7 +24,7 @@ This spins up PostgreSQL 16 on `localhost:5432` and Redis 7 on `localhost:6379`.
 cd progressrooms-api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 alembic upgrade head
 python -m scripts.seed.seed_data
 uvicorn app.main:app --reload --port 8000

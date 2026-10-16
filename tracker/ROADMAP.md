@@ -19,6 +19,7 @@ This tracker documents every feature, design decision, current status, and exact
 | **FEAT-09** | **Student Portal in Nature Theme** (Countdown & Zoom Join) | 🟢 PREVIEW_READY | [FEAT-03 Doc](features/FEAT-03-dev-test-login.md) |
 | **FEAT-10** | **Studio Account Completion & Zoom Authentication** (Multi-step wizard, default landing, auto-Zoom batch links & Profiler) | 🟢 COMPLETED | [FEAT-10 Doc](features/FEAT-10-studio-account-completion-zoom.md) |
 | **FEAT-14** | **Role-Governed Attendance & Student Session Queries** | 🟡 SPECIFIED | [FEAT-14 Doc](features/FEAT-14-role-governed-attendance.md) |
+| **FEAT-19** | **Dual WhatsApp & Brevo Email Communication Engine** (Backend channel toggles, audit logs & dashboard control) | 🟢 STEP 1 COMPLETED | [FEAT-19 Doc](features/FEAT-19-dual-whatsapp-and-email-communication-engine.md) |
 
 ---
 

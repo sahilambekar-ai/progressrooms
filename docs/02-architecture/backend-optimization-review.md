@@ -1,5 +1,7 @@
 # Backend optimization review — 2026-09-29
 
+Update 2026-10-16: the legacy credential-table consolidation described below is now implemented and applied locally. See [the current simplification report](../03-database/simplification-2026-10-16.md) for migration, validation and remaining table boundaries.
+
 Scope: current working tree of progressrooms-api, including all API modules, ORM models, schema migrations, core services, seed usage, and tests. Existing uncommitted changes were preserved. This is a source review plus isolated SQLite tests, not a production benchmark or live data inventory.
 
 ## Implemented
