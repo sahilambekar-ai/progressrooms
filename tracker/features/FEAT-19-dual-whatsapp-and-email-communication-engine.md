@@ -2,15 +2,15 @@
 
 ## Overview
 
-Centralized, outbound operational notification infrastructure for ProgressRooms:
-1. **ProgressRooms Admin WhatsApp Sender**: Subscription invoices, upcoming due dates, overdue notices, payment confirmations, account/service alerts.
-2. **ProgressRooms Classes WhatsApp Sender**: Two scheduled class reminders (2-hour preparation message and 15-minute starting soon notice), material schedule corrections, cancellations.
+Centralized, outbound operational notification infrastructure for Progress Rooms:
+1. **Progress Rooms Admin WhatsApp Sender**: Subscription invoices, upcoming due dates, overdue notices, payment confirmations, account/service alerts.
+2. **Progress Rooms Classes WhatsApp Sender**: Two scheduled class reminders (2-hour preparation message and 15-minute starting soon notice), material schedule corrections, cancellations.
 3. **Brevo Transactional Email**: Corresponding operational emails for class schedules and billing events, alongside independent authentication emails (login OTPs and password resets).
 4. **Platform-Wide Backend Switches**: Super Admin controls placed beside the existing developer-mode toggle, enabling/suppressing operational sends across all studios while strictly preserving authentication email delivery.
 
 ## Behavior
 
-- **Platform-wide scope**: All WhatsApp senders are owned and funded by ProgressRooms. Scope clearly marked "Applies to all studios".
+- **Platform-wide scope**: All WhatsApp senders are owned and funded by Progress Rooms. Scope clearly marked "Applies to all studios".
 - **Backend-enforced toggles**: Stored in `platform_communication_settings` and enforced by API endpoints and dispatch jobs.
 - **Toggle audit trail**: Every switch change records `previous_state`, `new_state`, `changed_by_email`, timestamp, and notes in `communication_channel_audit_logs`.
 - **Suppression logging**: Disabling a channel suppresses operational dispatches and records activity in `communication_logs` with explicit reasons (e.g., `"Suppressed: email disabled"`, `"Suppressed: whatsapp disabled"`).

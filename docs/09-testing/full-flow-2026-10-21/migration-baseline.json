@@ -1,0 +1,13 @@
+{
+  "check": "Fresh migrated database contains all model tables",
+  "status": "FAIL",
+  "missing_tables": [
+    "class_reminder_schedules",
+    "communication_channel_audit_logs",
+    "communication_logs",
+    "pending_material_changes",
+    "platform_communication_settings",
+    "studio_communication_budgets",
+    "user_communication_preferences"
+  ]
+}

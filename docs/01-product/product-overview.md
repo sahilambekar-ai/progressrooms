@@ -1,6 +1,6 @@
 # Product overview
 
-ProgressRooms is an operating platform for people and organizations that teach scheduled classes. The platform joins catalog management, scheduling, student access, commerce and a public website. Yoga, music, dance, professional training and coaching are examples of customer content; none becomes a special case in business logic.
+Progress Rooms is an operating platform for people and organizations that teach scheduled classes. The platform joins catalog management, scheduling, student access, commerce and a public website. Yoga, music, dance, professional training and coaching are examples of customer content; none becomes a special case in business logic.
 
 ## Users and value
 

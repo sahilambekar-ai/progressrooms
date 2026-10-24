@@ -1,6 +1,6 @@
-# ProgressRooms
+# Progress Rooms
 
-ProgressRooms is a production-grade multi-tenant operating platform for teachers, instructors, trainers, coaches, and studios who conduct scheduled classes, workshops, and training programs.
+Progress Rooms is a production-grade multi-tenant operating platform for teachers, instructors, trainers, coaches, and studios who conduct scheduled classes, workshops, and training programs.
 
 ## Architecture
 

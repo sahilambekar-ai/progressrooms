@@ -1,0 +1,54 @@
+[
+  {
+    "check": "Browser-created class is active and has a one-session \u20b9100 package",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "Browser-created pass includes that class package and one credit",
+    "status": "PASS",
+    "detail": {
+      "price": "90.00",
+      "credits": 1
+    }
+  },
+  {
+    "check": "Student registration and owner admission retain one user and one roster identity",
+    "status": "PASS",
+    "detail": {
+      "users": 1,
+      "studio_roster_records": 1
+    }
+  },
+  {
+    "check": "UI owner admission creates an active enrollment without inventing a payment",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "Browser class and pass purchases persist two paid orders",
+    "status": "PASS",
+    "detail": {
+      "count": 2,
+      "amounts": [
+        "500.00",
+        "450.00"
+      ]
+    }
+  },
+  {
+    "check": "Browser payments are all explicitly MOCK",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "Owner-admitted browser class appears in student upcoming classes",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "Browser-created class and pass are discoverable through their teacher code",
+    "status": "PASS",
+    "detail": null
+  }
+]

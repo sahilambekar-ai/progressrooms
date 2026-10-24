@@ -1,5 +1,5 @@
 -- HISTORICAL DESIGN BLUEPRINT. See runtime-schema.sql and account-roles.md for the implemented schema.
--- ProgressRooms: PostgreSQL 16 initial full-domain schema.
+-- Progress Rooms: PostgreSQL 16 initial full-domain schema.
 -- Generated from schema-inventory.json; immutable migration is kept separately.
 -- Apply through Alembic; no credentials or seed data are embedded.
 

@@ -1,0 +1,232 @@
+[
+  {
+    "captured_at": "2026-10-21T07:25:28.180030+00:00",
+    "kind": "OTP",
+    "to_email": "flow.owner.20261021@example.com",
+    "to_name": "Flow Test Owner",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "EMAIL_VERIFICATION"
+  },
+  {
+    "captured_at": "2026-10-21T07:27:34.911135+00:00",
+    "kind": "OTP",
+    "to_email": "flow.teacher.20261021@example.com",
+    "to_name": "Flow Test Teacher",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "LOGIN_VERIFICATION"
+  },
+  {
+    "captured_at": "2026-10-21T07:28:05.449661+00:00",
+    "kind": "OTP",
+    "to_email": "flow.teacher.072804@example.com",
+    "to_name": "Flow Test Teacher",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "LOGIN_VERIFICATION"
+  },
+  {
+    "captured_at": "2026-10-21T07:28:05.660293+00:00",
+    "kind": "OTP",
+    "to_email": "flow.student.072804@example.com",
+    "to_name": "Flow Test Student",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "EMAIL_VERIFICATION"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_wa",
+    "arguments": {
+      "student_name": "Flow Test Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Morning Yoga",
+      "amount_inr": 500.0,
+      "receipt_url": "http://localhost:3006/student/receipts/6b7ef501-8991-4eb8-acdd-0cbe00559313"
+    },
+    "body": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9500.00 for *Full Flow Morning Yoga* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View receipt & access your classroom:\nhttp://localhost:3006/student/receipts/6b7ef501-8991-4eb8-acdd-0cbe00559313"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_email",
+    "arguments": {
+      "student_name": "Flow Test Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Morning Yoga",
+      "amount_inr": 500.0,
+      "receipt_url": "http://localhost:3006/student/receipts/6b7ef501-8991-4eb8-acdd-0cbe00559313",
+      "payment_reference": "dev_6b7ef50189914eb8acdd0cbe00559313"
+    },
+    "body": [
+      "\u2705 Payment Confirmed: Full Flow Morning Yoga (Full Flow Test Studio)",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\u2705 Payment Confirmed: Full Flow Morning Yoga (Full Flow Test Studio)</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #E8F0E9; color: #133623;\">Payment Received</span>\n      <div class=\"greeting\">Namaste Flow,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        Thank you for your payment. Your enrollment with <strong>Full Flow Test Studio</strong> is now confirmed and active.\n      </p>\n\n      <div class=\"details-card\">\n        <div class=\"details-row\"><span class=\"details-label\">Offering</span><span class=\"details-value\">Full Flow Morning Yoga</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Studio</span><span class=\"details-value\">Full Flow Test Studio</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Amount Paid</span><span class=\"details-value\">\u20b9500.00</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Payment ID</span><span class=\"details-value\">dev_6b7ef50189914eb8acdd0cbe00559313</span></div>\n      </div>\n\n      <a href=\"http://localhost:3006/student/receipts/6b7ef501-8991-4eb8-acdd-0cbe00559313\" class=\"cta-button\">Open Student Sanctuary & View Details</a>\n      <p style=\"font-size: 11px; text-align: center; color: #81A882; margin: 0;\">\n        You will receive scheduled reminders prior to class commencement.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_wa",
+    "arguments": {
+      "student_name": "Flow Test Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Five-Class Pass",
+      "amount_inr": 450.0,
+      "receipt_url": "http://localhost:3006/student/receipts/ceb06f1b-3be4-4832-99d8-4b928488ae38"
+    },
+    "body": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9450.00 for *Full Flow Five-Class Pass* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View receipt & access your classroom:\nhttp://localhost:3006/student/receipts/ceb06f1b-3be4-4832-99d8-4b928488ae38"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_email",
+    "arguments": {
+      "student_name": "Flow Test Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Five-Class Pass",
+      "amount_inr": 450.0,
+      "receipt_url": "http://localhost:3006/student/receipts/ceb06f1b-3be4-4832-99d8-4b928488ae38",
+      "payment_reference": "dev_ceb06f1b3be4483299d84b928488ae38"
+    },
+    "body": [
+      "\u2705 Payment Confirmed: Full Flow Five-Class Pass (Full Flow Test Studio)",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\u2705 Payment Confirmed: Full Flow Five-Class Pass (Full Flow Test Studio)</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #E8F0E9; color: #133623;\">Payment Received</span>\n      <div class=\"greeting\">Namaste Flow,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        Thank you for your payment. Your enrollment with <strong>Full Flow Test Studio</strong> is now confirmed and active.\n      </p>\n\n      <div class=\"details-card\">\n        <div class=\"details-row\"><span class=\"details-label\">Offering</span><span class=\"details-value\">Full Flow Five-Class Pass</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Studio</span><span class=\"details-value\">Full Flow Test Studio</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Amount Paid</span><span class=\"details-value\">\u20b9450.00</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Payment ID</span><span class=\"details-value\">dev_ceb06f1b3be4483299d84b928488ae38</span></div>\n      </div>\n\n      <a href=\"http://localhost:3006/student/receipts/ceb06f1b-3be4-4832-99d8-4b928488ae38\" class=\"cta-button\">Open Student Sanctuary & View Details</a>\n      <p style=\"font-size: 11px; text-align: center; color: #81A882; margin: 0;\">\n        You will receive scheduled reminders prior to class commencement.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "captured_at": "2026-10-21T07:28:06.094852+00:00",
+    "kind": "OTP",
+    "to_email": "flow.precreated.072804@example.com",
+    "to_name": "Flow Previously Unregistered Student",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "EMAIL_VERIFICATION"
+  },
+  {
+    "captured_at": "2026-10-21T07:31:51.396523+00:00",
+    "kind": "OTP",
+    "to_email": "flow.teacher.072804@example.com",
+    "to_name": "Flow Test Teacher",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "PASSWORD_RESET"
+  },
+  {
+    "captured_at": "2026-10-21T07:33:05.117198+00:00",
+    "kind": "OTP",
+    "to_email": "flow.browser.precreated@example.com",
+    "to_name": "Browser Flow Student",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "EMAIL_VERIFICATION"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_wa",
+    "arguments": {
+      "student_name": "Browser Flow Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Morning Yoga",
+      "amount_inr": 500.0,
+      "receipt_url": "http://localhost:3006/student/receipts/d1bc68af-4ef8-4a59-af6e-ba8825bb8002"
+    },
+    "body": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Browser,\nYour payment of \u20b9500.00 for *Full Flow Morning Yoga* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View receipt & access your classroom:\nhttp://localhost:3006/student/receipts/d1bc68af-4ef8-4a59-af6e-ba8825bb8002"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_email",
+    "arguments": {
+      "student_name": "Browser Flow Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Morning Yoga",
+      "amount_inr": 500.0,
+      "receipt_url": "http://localhost:3006/student/receipts/d1bc68af-4ef8-4a59-af6e-ba8825bb8002",
+      "payment_reference": "dev_d1bc68af4ef84a59af6eba8825bb8002"
+    },
+    "body": [
+      "\u2705 Payment Confirmed: Full Flow Morning Yoga (Full Flow Test Studio)",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\u2705 Payment Confirmed: Full Flow Morning Yoga (Full Flow Test Studio)</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #E8F0E9; color: #133623;\">Payment Received</span>\n      <div class=\"greeting\">Namaste Browser,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        Thank you for your payment. Your enrollment with <strong>Full Flow Test Studio</strong> is now confirmed and active.\n      </p>\n\n      <div class=\"details-card\">\n        <div class=\"details-row\"><span class=\"details-label\">Offering</span><span class=\"details-value\">Full Flow Morning Yoga</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Studio</span><span class=\"details-value\">Full Flow Test Studio</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Amount Paid</span><span class=\"details-value\">\u20b9500.00</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Payment ID</span><span class=\"details-value\">dev_d1bc68af4ef84a59af6eba8825bb8002</span></div>\n      </div>\n\n      <a href=\"http://localhost:3006/student/receipts/d1bc68af-4ef8-4a59-af6e-ba8825bb8002\" class=\"cta-button\">Open Student Sanctuary & View Details</a>\n      <p style=\"font-size: 11px; text-align: center; color: #81A882; margin: 0;\">\n        You will receive scheduled reminders prior to class commencement.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_wa",
+    "arguments": {
+      "student_name": "Browser Flow Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Five-Class Pass",
+      "amount_inr": 450.0,
+      "receipt_url": "http://localhost:3006/student/receipts/4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de"
+    },
+    "body": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Browser,\nYour payment of \u20b9450.00 for *Full Flow Five-Class Pass* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View receipt & access your classroom:\nhttp://localhost:3006/student/receipts/4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de"
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_student_payment_received_email",
+    "arguments": {
+      "student_name": "Browser Flow Student",
+      "studio_name": "Full Flow Test Studio",
+      "class_or_pass_name": "Full Flow Five-Class Pass",
+      "amount_inr": 450.0,
+      "receipt_url": "http://localhost:3006/student/receipts/4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de",
+      "payment_reference": "dev_4c7d23330cbe4736a6d8b6bb07f3a5de"
+    },
+    "body": [
+      "\u2705 Payment Confirmed: Full Flow Five-Class Pass (Full Flow Test Studio)",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\u2705 Payment Confirmed: Full Flow Five-Class Pass (Full Flow Test Studio)</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #E8F0E9; color: #133623;\">Payment Received</span>\n      <div class=\"greeting\">Namaste Browser,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        Thank you for your payment. Your enrollment with <strong>Full Flow Test Studio</strong> is now confirmed and active.\n      </p>\n\n      <div class=\"details-card\">\n        <div class=\"details-row\"><span class=\"details-label\">Offering</span><span class=\"details-value\">Full Flow Five-Class Pass</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Studio</span><span class=\"details-value\">Full Flow Test Studio</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Amount Paid</span><span class=\"details-value\">\u20b9450.00</span></div>\n        <div class=\"details-row\"><span class=\"details-label\">Payment ID</span><span class=\"details-value\">dev_4c7d23330cbe4736a6d8b6bb07f3a5de</span></div>\n      </div>\n\n      <a href=\"http://localhost:3006/student/receipts/4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de\" class=\"cta-button\">Open Student Sanctuary & View Details</a>\n      <p style=\"font-size: 11px; text-align: center; color: #81A882; margin: 0;\">\n        You will receive scheduled reminders prior to class commencement.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_wa",
+    "arguments": {},
+    "body": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny future reminders for this session have been automatically cancelled. Please check your Progress Rooms schedule for next upcoming classes."
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_email",
+    "arguments": {},
+    "body": [
+      "\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #F8D7DA; color: #721C24;\">Class Cancelled</span>\n      <div class=\"greeting\">Namaste Flow,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        We regret to inform you that <strong>Full Flow Morning Yoga</strong> scheduled for <strong>09:00 AM IST, Nov 05</strong> at <strong>Full Flow Test Studio</strong> has been cancelled.\n      </p>\n\n      <div style=\"margin: 16px 0; padding: 14px; background: #F8D7DA; border-radius: 10px; font-size: 12px; color: #721C24;\"><strong>Reason:</strong> Synthetic full-flow cancellation test</div>\n\n      <p style=\"font-size: 13px; color: #618D63; line-height: 1.5;\">\n        All subsequent reminder notifications for this session have been cancelled. Please visit your student portal to view future available sessions.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_wa",
+    "arguments": {},
+    "body": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny future reminders for this session have been automatically cancelled. Please check your Progress Rooms schedule for next upcoming classes."
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_email",
+    "arguments": {},
+    "body": [
+      "\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #F8D7DA; color: #721C24;\">Class Cancelled</span>\n      <div class=\"greeting\">Namaste Flow,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        We regret to inform you that <strong>Full Flow Morning Yoga</strong> scheduled for <strong>09:00 AM IST, Nov 05</strong> at <strong>Full Flow Test Studio</strong> has been cancelled.\n      </p>\n\n      <div style=\"margin: 16px 0; padding: 14px; background: #F8D7DA; border-radius: 10px; font-size: 12px; color: #721C24;\"><strong>Reason:</strong> Synthetic full-flow cancellation test</div>\n\n      <p style=\"font-size: 13px; color: #618D63; line-height: 1.5;\">\n        All subsequent reminder notifications for this session have been cancelled. Please visit your student portal to view future available sessions.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_email",
+    "arguments": {},
+    "body": [
+      "\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #F8D7DA; color: #721C24;\">Class Cancelled</span>\n      <div class=\"greeting\">Namaste Browser,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        We regret to inform you that <strong>Full Flow Morning Yoga</strong> scheduled for <strong>09:00 AM IST, Nov 05</strong> at <strong>Full Flow Test Studio</strong> has been cancelled.\n      </p>\n\n      <div style=\"margin: 16px 0; padding: 14px; background: #F8D7DA; border-radius: 10px; font-size: 12px; color: #721C24;\"><strong>Reason:</strong> Synthetic full-flow cancellation test</div>\n\n      <p style=\"font-size: 13px; color: #618D63; line-height: 1.5;\">\n        All subsequent reminder notifications for this session have been cancelled. Please visit your student portal to view future available sessions.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_wa",
+    "arguments": {},
+    "body": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny future reminders for this session have been automatically cancelled. Please check your Progress Rooms schedule for next upcoming classes."
+  },
+  {
+    "kind": "RENDERED_NOTIFICATION",
+    "template": "render_class_cancellation_email",
+    "arguments": {},
+    "body": [
+      "\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio",
+      "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>\ud83d\uded1 Cancelled: Full Flow Morning Yoga at Full Flow Test Studio</title>\n  <style>\n    body {\n      margin: 0; padding: 0;\n      background-color: #f4f7f4;\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;\n      color: #1A2E22;\n      -webkit-font-smoothing: antialiased;\n    }\n    .wrapper { width: 100%; background-color: #f4f7f4; padding: 40px 15px; box-sizing: border-box; }\n    .container {\n      max-width: 580px; margin: 0 auto;\n      background-color: #ffffff;\n      border-radius: 20px; overflow: hidden;\n      box-shadow: 0 10px 30px rgba(12, 36, 23, 0.08);\n      border: 1px solid #CEDECF;\n    }\n    .header {\n      background: linear-gradient(135deg, #0C2417 0%, #133623 60%, #1b4332 100%);\n      padding: 32px 30px; text-align: center; color: #ffffff;\n    }\n    .header-title {\n      margin: 0; font-size: 22px; font-weight: 700;\n      letter-spacing: 0.5px; color: #F4F7F4; font-family: Georgia, serif;\n    }\n    .header-subtitle {\n      margin: 6px 0 0 0; font-size: 11px; color: #81A882;\n      text-transform: uppercase; letter-spacing: 2px; font-weight: 600;\n    }\n    .content { padding: 36px 32px; }\n    .greeting { font-size: 18px; font-weight: 700; color: #0C2417; margin-bottom: 12px; }\n    .badge {\n      display: inline-block; padding: 4px 12px;\n      background-color: #E8F0E9; color: #133623;\n      border-radius: 999px; font-size: 11px; font-weight: 700;\n      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;\n    }\n    .details-card {\n      background: #F4F7F4; border: 1px solid #CEDECF;\n      border-radius: 14px; padding: 20px 24px; margin: 24px 0;\n    }\n    .details-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E9E2; font-size: 13px; }\n    .details-row:last-child { border-bottom: none; }\n    .details-label { color: #40514E; font-weight: 500; }\n    .details-value { color: #0C2417; font-weight: 700; text-align: right; }\n    .cta-button {\n      display: block; width: 100%; box-sizing: border-box;\n      background-color: #0C2417; color: #ffffff !important;\n      text-decoration: none; text-align: center; padding: 16px 24px;\n      border-radius: 12px; font-size: 14px; font-weight: 700;\n      letter-spacing: 0.5px; margin: 28px 0 16px 0;\n    }\n    .footer {\n      background-color: #E8F0E9; padding: 24px 30px;\n      text-align: center; font-size: 11px; color: #40514E;\n      border-top: 1px solid #CEDECF;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"container\">\n      <div class=\"header\">\n        <div style=\"font-size: 28px; margin-bottom: 6px;\">\ud83c\udf3f</div>\n        <h1 class=\"header-title\">Progress Rooms</h1>\n        <div class=\"header-subtitle\">Virtual Studio Sanctuary</div>\n      </div>\n      <div class=\"content\">\n        \n      <span class=\"badge\" style=\"background: #F8D7DA; color: #721C24;\">Class Cancelled</span>\n      <div class=\"greeting\">Namaste Flow,</div>\n      <p style=\"font-size: 14px; line-height: 1.6; color: #40514E; margin: 0 0 16px 0;\">\n        We regret to inform you that <strong>Full Flow Morning Yoga</strong> scheduled for <strong>09:00 AM IST, Nov 05</strong> at <strong>Full Flow Test Studio</strong> has been cancelled.\n      </p>\n\n      <div style=\"margin: 16px 0; padding: 14px; background: #F8D7DA; border-radius: 10px; font-size: 12px; color: #721C24;\"><strong>Reason:</strong> Synthetic full-flow cancellation test</div>\n\n      <p style=\"font-size: 13px; color: #618D63; line-height: 1.5;\">\n        All subsequent reminder notifications for this session have been cancelled. Please visit your student portal to view future available sessions.\n      </p>\n    \n      </div>\n      <div class=\"footer\">\n        <p style=\"margin: 0 0 6px 0;\"><strong>Progress Rooms Virtual Studio Operating System</strong></p>\n        <p style=\"margin: 0; color: #81A882;\">Independent Teacher Sanctuaries & Scheduled Batch Classrooms \u2022 India</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+    ]
+  },
+  {
+    "captured_at": "2026-10-21T07:37:52.815595+00:00",
+    "kind": "OTP",
+    "to_email": "flow.unenrolled@example.com",
+    "to_name": "Unenrolled Test Student",
+    "otp_code": "[omitted: synthetic verification code]",
+    "purpose": "EMAIL_VERIFICATION"
+  }
+]

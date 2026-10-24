@@ -1,0 +1,67 @@
+[
+  {
+    "check": "REMINDER_2H logs exist for assigned teacher and active students",
+    "status": "PASS",
+    "detail": 7
+  },
+  {
+    "check": "REMINDER_2H respects WhatsApp opt-out while allowing email",
+    "status": "PASS",
+    "detail": "Suppression verified in full logs. Opt-out entries omit occurrence metadata; this is a separate auditability gap."
+  },
+  {
+    "check": "REMINDER_15M logs exist for assigned teacher and active students",
+    "status": "PASS",
+    "detail": 7
+  },
+  {
+    "check": "REMINDER_15M respects WhatsApp opt-out while allowing email",
+    "status": "PASS",
+    "detail": "Suppression verified in full logs. Opt-out entries omit occurrence metadata; this is a separate auditability gap."
+  },
+  {
+    "check": "Repeated 15-minute worker cycle creates no duplicate messages",
+    "status": "PASS",
+    "detail": 0
+  },
+  {
+    "check": "Rendered reminder bodies include the secure application portal, not a host credential",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "Rescheduled class remains discoverable in student upcoming list",
+    "status": "FAIL",
+    "detail": {
+      "expected_occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "returned_ids": [
+        "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+        "8133f0b8-5a18-4af7-a429-7fae299b6055"
+      ]
+    }
+  },
+  {
+    "check": "Owner can cancel a future class through the API",
+    "status": "PASS",
+    "detail": {
+      "message": "Occurrence cancelled successfully"
+    }
+  },
+  {
+    "check": "Authenticated unenrolled student cannot obtain meeting URL",
+    "status": "PASS",
+    "detail": {
+      "detail": "You do not have an active enrollment or available credits for this class."
+    }
+  },
+  {
+    "check": "Class cancellation creates communication log records",
+    "status": "PASS",
+    "detail": 7
+  },
+  {
+    "check": "Suppressed opt-out records retain occurrence metadata",
+    "status": "FAIL",
+    "detail": "Opt-out branches omit occurrence_id and schedule_version in persisted logs."
+  }
+]

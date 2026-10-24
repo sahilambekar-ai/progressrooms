@@ -1,8 +1,8 @@
-# ProgressRooms System Architecture
+# Progress Rooms System Architecture
 
 ## 1. System Topology
 
-ProgressRooms is engineered as a decoupled, multi-tenant system with two core repositories:
+Progress Rooms is engineered as a decoupled, multi-tenant system with two core repositories:
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐

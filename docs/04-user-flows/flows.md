@@ -1,4 +1,4 @@
-# ProgressRooms User Flows
+# Progress Rooms User Flows
 
 ## 1. Critical End-to-End Flow: Discovery to Class Attendance
 

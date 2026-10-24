@@ -1,0 +1,176 @@
+[
+  {
+    "id": "1a9e3201-bb63-4fde-add4-3d8d5d7c490c",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9500.00 for *Full Flow Morning Yoga* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View rece",
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "6b7ef501-8991-4eb8-acdd-0cbe00559313",
+      "reference": "dev_6b7ef50189914eb8acdd0cbe00559313"
+    }
+  },
+  {
+    "id": "c11bcd4d-1c63-4fda-b765-0c6c6c2d9f77",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "Payment confirmed for Full Flow Morning Yoga at Full Flow Test Studio",
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "6b7ef501-8991-4eb8-acdd-0cbe00559313",
+      "reference": "dev_6b7ef50189914eb8acdd0cbe00559313"
+    }
+  },
+  {
+    "id": "923b6de2-a8d0-4da3-b72b-76ae87b08edc",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9450.00 for *Full Flow Five-Class Pass* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View r",
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "ceb06f1b-3be4-4832-99d8-4b928488ae38",
+      "reference": "dev_ceb06f1b3be4483299d84b928488ae38"
+    }
+  },
+  {
+    "id": "dd954654-15d9-4512-a636-514a1d936cb2",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "Payment confirmed for Full Flow Five-Class Pass at Full Flow Test Studio",
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "ceb06f1b-3be4-4832-99d8-4b928488ae38",
+      "reference": "dev_ceb06f1b3be4483299d84b928488ae38"
+    }
+  },
+  {
+    "id": "696422e8-09b7-4a8f-8efa-78ce775cae0e",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  },
+  {
+    "id": "a3c861ed-2208-4c5d-aa27-45bf1028d9bd",
+    "recipient": {
+      "name": "Flow Test Student",
+      "role": "STUDENT",
+      "email": "flow.student.072804@example.com"
+    },
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  },
+  {
+    "id": "53420e64-1204-4cef-9f83-1e94f4bbd113",
+    "recipient": {
+      "name": "Flow Previously Unregistered Student",
+      "role": "STUDENT",
+      "email": "flow.precreated.072804@example.com"
+    },
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  },
+  {
+    "id": "5c2c0401-4d98-422a-977e-e124520d3e0e",
+    "recipient": {
+      "name": "Flow Previously Unregistered Student",
+      "role": "STUDENT",
+      "email": "flow.precreated.072804@example.com"
+    },
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  },
+  {
+    "id": "ee3bb369-9f84-4ebb-87c7-61c0be7b8bb7",
+    "recipient": {
+      "name": "Flow Test Teacher",
+      "role": "TEACHER",
+      "email": "flow.teacher.072804@example.com"
+    },
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  },
+  {
+    "id": "13bd8b58-3eaf-4256-aebb-6d4945363087",
+    "recipient": {
+      "name": "Flow Test Teacher",
+      "role": "TEACHER",
+      "email": "flow.teacher.072804@example.com"
+    },
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "status": "SENT",
+    "suppression_reason": null,
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)",
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    }
+  }
+]

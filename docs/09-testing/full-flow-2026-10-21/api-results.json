@@ -1,0 +1,259 @@
+{
+  "run_at": "2026-10-21T07:28:06.174472+00:00",
+  "checks": [
+    {
+      "check": "Owner password login",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Fresh migrated database contains all model tables",
+      "status": "WORKAROUND",
+      "missing_tables": [],
+      "detail": "This continuation run used missing communication tables created from metadata. Fresh-migration failure is preserved independently in migration-baseline.json and migration-runtime-result.json."
+    },
+    {
+      "check": "Owner adds new teacher (no password, same as UI)",
+      "status": "PASS",
+      "http_status": 201,
+      "detail": null
+    },
+    {
+      "check": "Teacher password login after invitation (expected blocker)",
+      "status": "PASS",
+      "http_status": 401,
+      "detail": null
+    },
+    {
+      "check": "Teacher requests OTP login (available workaround)",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Teacher verifies login OTP",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner creates class category",
+      "status": "PASS",
+      "http_status": 201,
+      "detail": null
+    },
+    {
+      "check": "Teacher tries to create a class (role limitation)",
+      "status": "PASS",
+      "http_status": 403,
+      "detail": null
+    },
+    {
+      "check": "Owner creates scheduled class after explicit test-only table setup",
+      "status": "PASS",
+      "http_status": 201,
+      "detail": null
+    },
+    {
+      "check": "Owner tries to add an unregistered student",
+      "status": "PASS",
+      "http_status": 422,
+      "detail": null
+    },
+    {
+      "check": "New student self-registers",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student verifies registration OTP",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student password login",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student searches teacher by code",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Public teacher profile lists classes",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner creates purchasable studio pass",
+      "status": "PASS",
+      "http_status": 201,
+      "detail": null
+    },
+    {
+      "check": "Teacher tries to create a pass (role limitation)",
+      "status": "PASS",
+      "http_status": 403,
+      "detail": null
+    },
+    {
+      "check": "Student buys class",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Mock class payment activates enrollment",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Repeated class payment verification is idempotent",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student buys pass",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Mock pass payment activates enrollment",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Repeated pass payment verification is idempotent",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student sees active purchases",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner sees paid student in roster",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Previously rejected pre-add student registers normally",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Second student verifies registration",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner admits now-registered student",
+      "status": "PASS",
+      "http_status": 201,
+      "detail": null
+    },
+    {
+      "check": "Owner creates teacher Zoom connection request",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Teacher redeems own Zoom connection request",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Mock Zoom callback verifies teacher identity",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Teacher confirms mock Zoom account",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner reads Zoom settings",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner enables mock meeting creation with teacher host",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Owner reads generated class dates",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Teacher obtains persisted mock Zoom meeting",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Teacher meeting is explicitly mock",
+      "status": "PASS",
+      "detail": {
+        "join_url": "http://localhost:3006/integrations/zoom/mock-room?meeting=mock-af6d3b29-7b6b-4799-8114-8359f2748ac7",
+        "provider": "DEV_SIMULATION",
+        "is_simulated": true,
+        "host_email": "teacher-e939c410@zoom.example.invalid",
+        "can_start": true,
+        "restricted_settings": [],
+        "start_responsibility": "Hosted by teacher-e939c410@zoom.example.invalid; that account holder must start the meeting"
+      }
+    },
+    {
+      "check": "Repeat meeting lookup reuses the same join URL",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    },
+    {
+      "check": "Student upcoming classes contain purchased class",
+      "status": "PASS",
+      "http_status": 200,
+      "detail": null
+    }
+  ],
+  "ids": {
+    "studio_id": "b9370d5f-3084-4a88-acdd-8e8b4e338506",
+    "slug": "full-flow-test-studio-f1ee31",
+    "teacher_id": "e939c410-852f-4228-835d-7f2341218adf",
+    "teacher_code": "29126838",
+    "teacher_email": "flow.teacher.072804@example.com",
+    "student_email": "flow.student.072804@example.com",
+    "precreated_email": "flow.precreated.072804@example.com",
+    "class_id": "3dc2684a-1f30-4af2-9218-e0117184c09c",
+    "student_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "pass_id": "9dcf7aff-5567-4efb-8fea-57697368b0d5",
+    "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a"
+  }
+}

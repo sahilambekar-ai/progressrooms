@@ -1,0 +1,6 @@
+{
+  "status": "FAIL",
+  "error_type": "ProgrammingError",
+  "error": "(sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation \"platform_communication_settings\" does not exist",
+  "detail": "Fresh alembic upgrade head; no metadata.create_all workaround used in this probe."
+}

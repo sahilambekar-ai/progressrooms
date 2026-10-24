@@ -1,4 +1,4 @@
-# ProgressRooms review — 2026-09-09
+# Progress Rooms review — 2026-09-09
 
 The current application is a foundation release, not the complete product in the specification. Authentication, organization creation, membership checks, plans and trial entitlements are implemented. Catalog, scheduling, public organization pages, commerce, student classes, websites and workers are explicitly planned. Their absence is not an unexpected regression.
 

@@ -1,0 +1,457 @@
+[
+  {
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "6b7ef501-8991-4eb8-acdd-0cbe00559313",
+      "reference": "dev_6b7ef50189914eb8acdd0cbe00559313"
+    },
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9500.00 for *Full Flow Morning Yoga* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View rece"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "6b7ef501-8991-4eb8-acdd-0cbe00559313",
+      "reference": "dev_6b7ef50189914eb8acdd0cbe00559313"
+    },
+    "preview": "Payment confirmed for Full Flow Morning Yoga at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "ceb06f1b-3be4-4832-99d8-4b928488ae38",
+      "reference": "dev_ceb06f1b3be4483299d84b928488ae38"
+    },
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Flow,\nYour payment of \u20b9450.00 for *Full Flow Five-Class Pass* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View r"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "ceb06f1b-3be4-4832-99d8-4b928488ae38",
+      "reference": "dev_ceb06f1b3be4483299d84b928488ae38"
+    },
+    "preview": "Payment confirmed for Full Flow Five-Class Pass at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 22*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "4d47bd9a-f6a5-4f39-be1c-5d95fd874b2a",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 22)"
+  },
+  {
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "d1bc68af-4ef8-4a59-af6e-ba8825bb8002",
+      "reference": "dev_d1bc68af4ef84a59af6eba8825bb8002"
+    },
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Browser,\nYour payment of \u20b9500.00 for *Full Flow Morning Yoga* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. View r"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 500.0,
+      "order_id": "d1bc68af-4ef8-4a59-af6e-ba8825bb8002",
+      "reference": "dev_d1bc68af4ef84a59af6eba8825bb8002"
+    },
+    "preview": "Payment confirmed for Full Flow Morning Yoga at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_ADMIN",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de",
+      "reference": "dev_4c7d23330cbe4736a6d8b6bb07f3a5de"
+    },
+    "preview": "\u2705 *Payment Confirmed \u2014 Full Flow Test Studio*\n\nNamaste Browser,\nYour payment of \u20b9450.00 for *Full Flow Five-Class Pass* at *Full Flow Test Studio* was successful.\n\nYour booking has been activated. Vie"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "PAYMENT_RECEIVED",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "amount": 450.0,
+      "order_id": "4c7d2333-0cbe-4736-a6d8-b6bb07f3a5de",
+      "reference": "dev_4c7d23330cbe4736a6d8b6bb07f3a5de"
+    },
+    "preview": "Payment confirmed for Full Flow Five-Class Pass at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 29*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 29*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SUPPRESSED",
+    "suppression_reason": "Suppressed: recipient opt-out",
+    "metadata": null,
+    "preview": null
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_2H",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Class Reminder \u2014 2 Hours*\n\nYour class *Full Flow Morning Yoga* at *Full Flow Test Studio* begins today at *09:00 AM IST, Oct 29*.\n\n\u2022 Instructor: Flow Test Teacher\n\u2022 Suggested Arrival: Please join 5"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_2H",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_15M",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Starting Soon \u2014 15 Minutes*\n\n*Full Flow Morning Yoga* with Flow Test Teacher (Full Flow Test Studio) starts in 15 minutes at *09:00 AM IST, Oct 29*.\n\nPlease take your seat 5 minutes early at *08:55"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_15M",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_15M",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Starting Soon \u2014 15 Minutes*\n\n*Full Flow Morning Yoga* with Flow Test Teacher (Full Flow Test Studio) starts in 15 minutes at *09:00 AM IST, Oct 29*.\n\nPlease take your seat 5 minutes early at *08:55"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_15M",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_15M",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SUPPRESSED",
+    "suppression_reason": "Suppressed: recipient opt-out",
+    "metadata": null,
+    "preview": null
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_15M",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "REMINDER_15M",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "\ud83c\udf3f *Starting Soon \u2014 15 Minutes*\n\n*Full Flow Morning Yoga* with Flow Test Teacher (Full Flow Test Studio) starts in 15 minutes at *09:00 AM IST, Oct 29*.\n\nPlease take your seat 5 minutes early at *08:55"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "REMINDER_15M",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "occurrence_id": "339a0a65-06d9-42f6-8da9-b83f1491adb2",
+      "schedule_version": 1
+    },
+    "preview": "Full Flow Morning Yoga at Full Flow Test Studio (09:00 AM IST, Oct 29)"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny futur"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "2f78fa65-67ee-4db8-bb89-d29365daa1f2",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "Class cancelled: Full Flow Morning Yoga at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny futur"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "2ef45fbe-59fc-4d4c-b15f-d908aeb9b9d1",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "Class cancelled: Full Flow Morning Yoga at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SUPPRESSED",
+    "suppression_reason": "Suppressed: recipient opt-out",
+    "metadata": null,
+    "preview": null
+  },
+  {
+    "channel": "EMAIL",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "b9e8c981-dbc2-4fc6-9f02-bebda1f293ab",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "Class cancelled: Full Flow Morning Yoga at Full Flow Test Studio"
+  },
+  {
+    "channel": "WHATSAPP_CLASSES",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "\ud83d\uded1 *Class Cancelled \u2014 Full Flow Test Studio*\n\nPlease note that *Full Flow Morning Yoga* scheduled for *09:00 AM IST, Nov 05* has been cancelled.\nReason: Synthetic full-flow cancellation test\n\nAny futur"
+  },
+  {
+    "channel": "EMAIL",
+    "type": "CLASS_CANCELLATION",
+    "recipient_id": "7425c9b2-a252-4452-b0c4-383a4c3e8134",
+    "status": "SENT",
+    "suppression_reason": null,
+    "metadata": {
+      "reason": "Synthetic full-flow cancellation test",
+      "occurrence_id": "8133f0b8-5a18-4af7-a429-7fae299b6055"
+    },
+    "preview": "Class cancelled: Full Flow Morning Yoga at Full Flow Test Studio"
+  }
+]

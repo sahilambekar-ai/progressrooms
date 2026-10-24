@@ -2,7 +2,7 @@
 
 Status: design for student commerce; no live checkout or enrollment fulfillment is claimed by the foundation.
 
-ProgressRooms subscription billing and student class purchases are separate domains. Student money belongs to the teaching organization. Order creation must identify the intended organization payment account; platform collection must not become an unexamined permanent settlement assumption.
+Progress Rooms subscription billing and student class purchases are separate domains. Student money belongs to the teaching organization. Order creation must identify the intended organization payment account; platform collection must not become an unexamined permanent settlement assumption.
 
 ## Order and pricing
 

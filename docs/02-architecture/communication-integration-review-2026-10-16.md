@@ -4,7 +4,7 @@
 
 Not production ready. The implementation contains scheduling rules, English message renderers, communication models, super-admin controls, budget helpers, and activity records. It does not yet implement real operational WhatsApp/email delivery. Existing SENT records must not be treated as evidence of delivery.
 
-Reviewed the current uncommitted changes against the two-sender ProgressRooms plan. No real messages were sent during verification. Existing changes were preserved; this review adds explanatory WhatsApp UI indicators and this report. No deployment, commit, or push was performed.
+Reviewed the current uncommitted changes against the two-sender Progress Rooms plan. No real messages were sent during verification. Existing changes were preserved; this review adds explanatory WhatsApp UI indicators and this report. No deployment, commit, or push was performed.
 
 ## Verification performed
 
@@ -50,7 +50,7 @@ Centralize class-change events and connect recurring schedule replacement, one-o
 
 Evidence: preferences only store opt-out booleans. Missing preferences permit sending; there is no affirmative consent evidence or opt-out webhook. Fallback to `user.phone` is automatic.
 
-Collect and record explicit consent covering the two ProgressRooms senders and operational purposes, with timestamp/source/text version. Normalize and validate Indian recipient numbers. Do not treat an arbitrary account phone as a consented WhatsApp destination. Implement verified inbound webhooks for opt-outs and delivery statuses even though conversational support is out of scope. Add recipient preference controls and unsubscribe handling. Keep authentication email independent from operational switches.
+Collect and record explicit consent covering the two Progress Rooms senders and operational purposes, with timestamp/source/text version. Normalize and validate Indian recipient numbers. Do not treat an arbitrary account phone as a consented WhatsApp destination. Implement verified inbound webhooks for opt-outs and delivery statuses even though conversational support is out of scope. Add recipient preference controls and unsubscribe handling. Keep authentication email independent from operational switches.
 
 ### P1 — Actual billing lifecycle
 
@@ -76,9 +76,9 @@ The communication panel also warns that current SENT entries do not verify deliv
 
 ## Owner-provided setup inputs
 
-1. Two ProgressRooms-owned WhatsApp numbers: Admin and Classes; current WhatsApp registration/use of each.
+1. Two Progress Rooms-owned WhatsApp numbers: Admin and Classes; current WhatsApp registration/use of each.
 2. Meta business administrator access, business identity/profile and requested verification materials.
-3. Final integration route: direct Meta Cloud API or selected official provider; billing method paid by ProgressRooms.
+3. Final integration route: direct Meta Cloud API or selected official provider; billing method paid by Progress Rooms.
 4. Account and phone-number IDs, production credentials stored in secrets management, and webhook setup.
 5. Approved English operational template names, versions and parameter layouts for both senders.
 6. Brevo effective production sender verification and credential availability. Code defaults to `sahilambekar.dev@gmail.com`; runtime verification remains necessary.

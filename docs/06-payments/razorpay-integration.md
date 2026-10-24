@@ -18,7 +18,7 @@ Initially process captured payment/order-paid confirmation through one verified 
 
 ## Teacher settlement
 
-Razorpay Route provides linked accounts and transfers for payments split among third parties. Eligibility and onboarding requirements apply; integration design must be validated for ProgressRooms' actual business/account setup. The architecture reserves organization account, transfer/reversal and settlement references, and keeps settlement distinct from enrollment fulfillment. This design derives from [Razorpay Route](https://razorpay.com/docs/payments/route/) and [linked account documentation](https://razorpay.com/docs/payments/route/linked-account/).
+Razorpay Route provides linked accounts and transfers for payments split among third parties. Eligibility and onboarding requirements apply; integration design must be validated for Progress Rooms' actual business/account setup. The architecture reserves organization account, transfer/reversal and settlement references, and keeps settlement distinct from enrollment fulfillment. This design derives from [Razorpay Route](https://razorpay.com/docs/payments/route/) and [linked account documentation](https://razorpay.com/docs/payments/route/linked-account/).
 
 Do not enable live class collection until the merchant-of-record, connected/linked account model, fees, refunds, dispute handling and settlement ownership are confirmed with the payment provider. A sandbox implementation may simulate these records with clearly marked mock identifiers. Do not describe basic checkout as a completed marketplace settlement integration.
 

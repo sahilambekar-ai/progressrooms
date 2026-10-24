@@ -1,4 +1,4 @@
-# ProgressRooms Prototype & Feature Progression Tracker
+# Progress Rooms Prototype & Feature Progression Tracker
 
 This tracker documents every feature, design decision, current status, and exact testing verification steps in our step-by-step development progression.
 

@@ -1,0 +1,7 @@
+Command run from progressrooms-api:
+APP_ENV=test BREVO_ENABLED=false RAZORPAY_KEY_ID=rzp_test_mock_progressrooms RAZORPAY_KEY_SECRET=rzp_secret_mock_progressrooms ZOOM_TEST_POSTGRES_URL=postgresql+asyncpg://sahil@127.0.0.1:55433/progressrooms_full_flow_test .venv/bin/pytest -q
+
+Observed result: 139 passed, 2 warnings in 8.25s.
+Warnings: two Pydantic class-based Config deprecations.
+Default suites use isolated SQLite fixtures; test_zoom_postgres.py used disposable schemas on the separate PostgreSQL 18 test instance.
+A passing regression suite does not override the migration and full-flow failures recorded in REPORT.md.

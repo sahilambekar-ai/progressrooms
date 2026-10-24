@@ -4,7 +4,7 @@ Status: teacher identity, organization setup and trial readout are the foundatio
 
 ## Teacher signup and trial
 
-1. Teacher chooses to start ProgressRooms, enters email, receives a generic OTP delivery response and verifies the code.
+1. Teacher chooses to start Progress Rooms, enters email, receives a generic OTP delivery response and verifies the code.
 2. Backend creates or retrieves one verified global user. A failed or expired code leaves the user on verification with a safe retry/resend state.
 3. An existing member chooses an organization; a new teacher enters name, slug and IANA timezone. The server validates reserved/duplicate slugs.
 4. One transaction creates organization, OWNER membership, settings and a 30-day Starter subscription. Failure rolls back all rows; a race on the slug returns a recoverable conflict.

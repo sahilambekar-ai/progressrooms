@@ -8,7 +8,7 @@
 ---
 
 ## 1. Overview
-The primary landing page (`progressrooms.com` / `/`) showcases the complete ProgressRooms virtual studio suite in nature theme. It guides prospective studio owners, teachers, and academies through the platform value proposition and 4-tier pricing model.
+The primary landing page (`progressrooms.com` / `/`) showcases the complete Progress Rooms virtual studio suite in nature theme. It guides prospective studio owners, teachers, and academies through the platform value proposition and 4-tier pricing model.
 
 ## 2. Key Sections Implemented
 1. **Sanctuary Header**:

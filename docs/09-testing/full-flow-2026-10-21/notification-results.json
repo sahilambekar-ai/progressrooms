@@ -1,0 +1,79 @@
+[
+  {
+    "check": "Two-hour reminder renders eligible student and teacher notifications",
+    "status": "PASS",
+    "detail": 6
+  },
+  {
+    "check": "Rerunning the same reminder does not duplicate messages",
+    "status": "PASS",
+    "detail": 0
+  },
+  {
+    "check": "Payment confirmation logs exist",
+    "status": "PASS",
+    "detail": null
+  },
+  {
+    "check": "No teacher invitation log exists (invitation gap)",
+    "status": "PASS",
+    "detail": "Absence is a product gap, not a delivered invitation."
+  },
+  {
+    "check": "Purchased student has exactly one studio roster identity",
+    "status": "PASS",
+    "detail": 1
+  },
+  {
+    "check": "Two verified purchases remain two payment rows after verification retries",
+    "status": "PASS",
+    "detail": 2
+  },
+  {
+    "check": "Register-then-admit creates one linked student identity",
+    "status": "PASS",
+    "detail": 1
+  },
+  {
+    "check": "Student cannot join earlier than 15 minutes before class",
+    "status": "PASS",
+    "detail": {
+      "detail": "Meeting link unlocks 15 minutes before scheduled class start time."
+    }
+  },
+  {
+    "check": "Anonymous meeting access is rejected",
+    "status": "PASS",
+    "detail": 401
+  },
+  {
+    "check": "Owner can reschedule a mock-hosted class into the join window",
+    "status": "PASS",
+    "detail": {
+      "message": "Occurrence rescheduled successfully",
+      "new_start_at": "2026-10-21T07:40:00.867008+00:00"
+    }
+  },
+  {
+    "check": "Enrolled student receives mock meeting URL during join window",
+    "status": "PASS",
+    "detail": {
+      "meeting_url": "http://localhost:3006/integrations/zoom/mock-room?meeting=mock-af6d3b29-7b6b-4799-8114-8359f2748ac7",
+      "provider": "DEV_SIMULATION",
+      "is_simulated": true
+    }
+  },
+  {
+    "check": "Mock room is local and has no host start credential",
+    "status": "PASS",
+    "detail": "http://localhost:3006/integrations/zoom/mock-room?meeting=mock-af6d3b29-7b6b-4799-8114-8359f2748ac7"
+  },
+  {
+    "check": "Payment receipt destination exists",
+    "status": "FAIL",
+    "detail": {
+      "status": 404,
+      "path": "/student/receipts/6b7ef501-8991-4eb8-acdd-0cbe00559313"
+    }
+  }
+]
